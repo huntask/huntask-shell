@@ -64,8 +64,6 @@ services:
       dockerfile: todolist-client/Dockerfile
     profiles:
       - frontend
-    environment:
-      - NODE_ENV
     ports:
       - "4000:4000"
     networks:

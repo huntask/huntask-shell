@@ -22,12 +22,17 @@ public static class WebApplicationExtensions
   {
     if (app.Environment.IsDevelopment())
     {
-      app.UseOpenApi();
+      var documentPath = "/identity/swagger/{documentName}/swagger.json";
+      app.UseOpenApi(config =>
+      {
+        config.Path = documentPath;
+      });
+
       app.UseSwaggerUi(config =>
       {
         config.DocumentTitle = "IdentityAPI";
-        config.Path = "/swagger";
-        config.DocumentPath = "/swagger/{documentName}/swagger.json";
+        config.Path = "/identity/swagger";
+        config.DocumentPath = documentPath;
         config.DocExpansion = "list";
       });
     }
