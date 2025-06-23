@@ -21,12 +21,18 @@ public static class WebApplicationExtensions
   {
     if (app.Environment.IsDevelopment())
     {
-      app.UseOpenApi();
+      var documentPath = "/todolist/swagger/{documentName}/swagger.json";
+
+      app.UseOpenApi(config =>
+      {
+        config.Path = documentPath;
+      });
+
       app.UseSwaggerUi(config =>
       {
         config.DocumentTitle = "TodoAPI";
-        config.Path = "/swagger";
-        config.DocumentPath = "/swagger/{documentName}/swagger.json";
+        config.Path = "/todolist/swagger";
+        config.DocumentPath = documentPath;
         config.DocExpansion = "list";
       });
     }

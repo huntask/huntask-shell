@@ -44,7 +44,8 @@
       "stopAtEntry": false,
       "serverReadyAction": {
         "action": "openExternally",
-        "uriFormat": "http://localhost:8081"
+        "uriFormat": "http://localhost:8081/identity/swagger",
+        "pattern": "Now listening on: http://\\[::\\]:8081"
       },
     },
     {
@@ -58,7 +59,8 @@
       "stopAtEntry": false,
       "serverReadyAction": {
         "action": "openExternally",
-        "uriFormat": "http://localhost:8081"
+        "uriFormat": "http://localhost:8080/todolist/swagger",
+        "pattern": "Now listening on: http://\\[::\\]:8080"
       },
     }
   ],

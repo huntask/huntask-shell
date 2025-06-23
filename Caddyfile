@@ -1,14 +1,4 @@
 localhost {
-  handle /todolist/swagger/* {
-    uri strip_prefix /todolist
-    reverse_proxy todolistservice:8080
-  }
-
-  handle /identity/swagger/* {
-    uri strip_prefix /identity
-    reverse_proxy identityservice:8081
-  }
-
   handle_path /todolist/* {
     reverse_proxy todolistservice:8080
   }
