@@ -21,7 +21,7 @@ jobs:
       - name: Run Docker Compose
         run: |
           npm run docker:build
-          npm run docker:fullstack:detach
+          npm run docker:run:detach
 
       - name: Verify if services are running
         run: docker compose ps
