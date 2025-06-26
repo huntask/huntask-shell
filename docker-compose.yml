@@ -12,8 +12,6 @@ services:
       - identity
     environment:
       - ASPNETCORE_ENVIRONMENT
-      - ASPNETCORE__Kestrel__Certificates__Default__Path
-      - ASPNETCORE__Kestrel__Certificates__Default__Password
       - ConnectionStrings__TodoListDbConnection
       - Jwt__Issuer
       - Jwt__Audience

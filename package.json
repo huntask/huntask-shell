@@ -11,13 +11,8 @@
     "caddy:trust": "choco install caddy --yes --force && powershell -Command \"Start-Process -NoNewWindow -FilePath 'caddy' -ArgumentList 'run --config Caddyfile'; Start-Sleep -Seconds 5; caddy trust; Stop-Process -Name caddy -Force\"",
     "docker:build": "docker compose -f docker-compose.yml build",
     "docker:build:debug": "docker compose -f docker-compose.yml -f docker-compose.debug.yml build",
-    "docker:build:nocache": "docker compose -f docker-compose.yml build --no-cache",
-    "docker:build:debug:nocache": "docker compose -f docker-compose.yml -f docker-compose.debug.yml build --no-cache",
-    "docker:tools": "docker compose -f docker-compose.yml -f docker-compose.debug.yml --profile db --profile tools --profile proxy up",
-    "docker:backend:tools": "docker compose -f docker-compose.yml -f docker-compose.debug.yml --profile backend --profile tools --profile proxy up",
-    "docker:identity:tools": "docker compose -f docker-compose.yml -f docker-compose.debug.yml --profile identity --profile db --profile tools --profile proxy up",
-    "docker:fullstack": "docker compose -f docker-compose.yml --profile frontend --profile backend --profile proxy up",
-    "docker:fullstack:tools": "docker compose -f docker-compose.yml --profile frontend --profile backend --profile tools --profile proxy up",
-    "docker:fullstack:detach": "docker compose -f docker-compose.yml --profile frontend --profile backend --profile proxy up -d"
+    "docker:run:db": "docker compose -f docker-compose.yml --profile db --profile tools",
+    "docker:run": "docker compose -f docker-compose.yml --profile frontend --profile backend --profile tools --profile proxy up",
+    "docker:run:detach": "docker compose -f docker-compose.yml --profile frontend --profile backend --profile proxy up -d"
   }
 }

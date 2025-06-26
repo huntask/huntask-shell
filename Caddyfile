@@ -1,17 +1,21 @@
 localhost {
-  handle /todolist/* {
+  handle /todolist/swagger/* {
     reverse_proxy todolistservice:8080
   }
 
-  handle /identity/* {
+  handle /identity/swagger/* {
     reverse_proxy identityservice:8081
   }
 
-  handle_path /pgadmin/* {
-    reverse_proxy pgadmin:80
+  handle_path /todolist/* {
+    reverse_proxy todolistservice:8080
   }
 
-  reverse_proxy / {
-    to todolistclient:4000
+  handle_path /identity/* {
+    reverse_proxy identityservice:8081
+  }
+
+  handle /* {
+    reverse_proxy todolistclient:4000
   }
 }
