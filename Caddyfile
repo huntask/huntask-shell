@@ -1,9 +1,9 @@
 localhost {
-  handle_path /todolist/* {
+  handle /todolist/* {
     reverse_proxy todolistservice:8080
   }
 
-  handle_path /identity/* {
+  handle /identity/* {
     reverse_proxy identityservice:8081
   }
 
