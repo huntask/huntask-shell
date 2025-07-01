@@ -1,0 +1,12 @@
+.upload-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+
+  &__button {
+    display: block;
+  }
+}
