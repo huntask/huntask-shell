@@ -1,0 +1,37 @@
+# Ignore artifacts, dependencies, and build outputs
+node_modules/
+dist/
+build/
+coverage/
+
+# Ignore environment and config files
+.env
+*.local
+*.env.*
+
+# Ignore lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Ignore compiled output
+*.js
+*.d.ts
+*.map
+
+# Ignore Angular specific
+.angular/
+
+# Ignore logs
+*.log
+
+# Ignore IDE/editor files
+.vscode/
+.idea/
+.DS_Store
+
+# Ignore certificate and secrets
+certs/
+*.pfx
+*.key
+*.crt

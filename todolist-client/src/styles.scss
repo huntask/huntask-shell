@@ -1,8 +1,13 @@
-html, body, main {
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+
+html,
+body,
+main {
   height: 100%;
   margin: 0;
   padding: 0;
   background: #f6f6f6;
+  font-family: 'Roboto', Arial, sans-serif;
 }
 
 main {

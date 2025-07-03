@@ -14,5 +14,8 @@
     "docker:run:db": "docker compose -f docker-compose.yml --profile db --profile tools",
     "docker:run": "docker compose -f docker-compose.yml --profile frontend --profile backend --profile tools --profile proxy up",
     "docker:run:detach": "docker compose -f docker-compose.yml --profile frontend --profile backend --profile proxy up -d"
+  },
+  "dependencies": {
+    "uuidv7": "^1.0.2"
   }
 }

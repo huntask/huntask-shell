@@ -1,44 +1,49 @@
 'use client';
 
-import React from 'react';
-import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import React, { useState } from 'react';
+import { FormControl, FormHelperText, InputLabel, OutlinedInput } from '@mui/material';
+import { useInputValidation } from '@/hooks/useInputValidation';
+import { ShowPasswordAdornment } from './adornments/ShowPasswordAdornment';
+import { InputValidator } from '@/types';
 
-export default function PasswordField() {
-  const [showPassword, setShowPassword] = React.useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
-  const handleMouseUpPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
+type PasswordFieldProps = {
+  name?: string;
+  label?: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  validators?: InputValidator[];
+};
+
+export function PasswordField({
+  name = 'password',
+  label = 'Password',
+  value = '',
+  onChange,
+  validators,
+}: PasswordFieldProps) {
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, helperText, handleChange] = useInputValidation(value, onChange, validators);
+
+  const handleShowPassword = () => setShowPassword((show) => !show);
 
   return (
-    <FormControl
-      required
-      fullWidth
-      variant="outlined"
-      margin="normal">
-      <InputLabel htmlFor="password">Password</InputLabel>
+    <FormControl fullWidth variant="outlined" margin="normal" error={error}>
+      <InputLabel htmlFor={name}>{label}</InputLabel>
       <OutlinedInput
-        required
         fullWidth
-        name="password"
+        name={name}
         type={showPassword ? 'text' : 'password'}
         endAdornment={
-          <InputAdornment position="end">
-            <IconButton
-              onClick={handleClickShowPassword}
-              onMouseDown={handleMouseDownPassword}
-              onMouseUp={handleMouseUpPassword}
-              edge="end">
-              {showPassword ? <VisibilityOff /> : <Visibility />}
-            </IconButton>
-          </InputAdornment>
+          <ShowPasswordAdornment
+            showPassword={showPassword}
+            handleShowPassword={handleShowPassword}
+          />
         }
-        label="Password" />
+        label={label}
+        value={value}
+        onChange={handleChange}
+      />
+      {error && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>
   );
 }
