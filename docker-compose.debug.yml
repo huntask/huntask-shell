@@ -1,17 +1,17 @@
 version: '3.9'
 
 services:
-  identityservice:
+  huntask-identity-service:
     build:
-      context: .
-      dockerfile: Identity.Service/Dockerfile.debug
+      context: services/Huntask.Identity.Service/
+      dockerfile: Dockerfile.debug
     ports:
-      - "5001:5005" # debug
+      - "5001:5005"
 
 
-  todolistservice:
+  huntask-tasks-service:
     build:
-      context: .
-      dockerfile: TodoList.Service/Dockerfile.debug
+      context: services/Huntask.Tasks.Service/
+      dockerfile: Dockerfile.debug
     ports:
-     - "5002:5005" # debug
+     - "5002:5005"

@@ -1,0 +1,12 @@
+{
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "cross-env": "^7.0.3",
+    "husky": "^8.0.0",
+    "shx": "^0.4.0"
+  },
+  "scripts": {
+    "prepare": "husky install"
+  }
+}

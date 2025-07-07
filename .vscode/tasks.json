@@ -2,26 +2,26 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "build-todolist-service",
+      "label": "build-huntask-tasks-service",
       "type": "process",
       "command": "dotnet",
       "args": [
         "build",
 				"--configuration",
 				"Debug",
-        "${workspaceFolder}/TodoList.Service/TodoList.Service.csproj"
+        "${workspaceFolder}/services/Huntask.Tasks.Service/Huntask.Tasks.Service.csproj"
       ],
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "build-identity-service",
+      "label": "build-huntask-identity-service",
       "type": "process",
       "command": "dotnet",
       "args": [
         "build",
 				"--configuration",
 				"Debug",
-        "${workspaceFolder}/Identity.Service/Identity.Service.csproj"
+        "${workspaceFolder}/services/Huntask.Identity.Service/Huntask.Identity.Service.csproj"
       ],
       "problemMatcher": "$msCompile"
     }

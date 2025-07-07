@@ -1,21 +1,9 @@
+{
+  auto_https off
+}
+
 localhost {
-  handle /todolist/swagger/* {
-    reverse_proxy todolistservice:8080
-  }
-
-  handle /identity/swagger/* {
-    reverse_proxy identityservice:8081
-  }
-
-  handle_path /todolist/* {
-    reverse_proxy todolistservice:8080
-  }
-
-  handle_path /identity/* {
-    reverse_proxy identityservice:8081
-  }
-
-  handle /* {
-    reverse_proxy todolistclient:4000
+  handle_path /huntask/* {
+    reverse_proxy huntask-client:4000
   }
 }
