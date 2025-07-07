@@ -1,0 +1,35 @@
+{
+  "configurations": [
+    {
+      "name": "Attach to Huntask.Identity.Service to .NET in Docker",
+      "type": "coreclr",
+      "request": "attach",
+      "processName": "dotnet",
+      "pipeTransport": {
+        "pipeProgram": "docker",
+        "pipeArgs": ["exec", "-i", "huntask-shell-huntask-identity-service-1"],
+        "debuggerPath": "/vsdbg/debug-entry",
+        "pipeCwd": "${workspaceFolder}",
+        "quoteArgs": false
+      },
+      "sourceFileMap": {
+        "/app": "${workspaceFolder}"
+      }
+    },
+    {
+      "name": "Huntask.Identity.Service .NET Launch (web)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-huntask-identity-service",
+      "program": "${workspaceFolder}/bin/Debug/net9.0/Huntask.Identity.Service.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "uriFormat": "http://localhost:8081/swagger",
+        "pattern": "Now listening on: http://\\[::\\]:8081"
+      },
+    }
+  ],
+}

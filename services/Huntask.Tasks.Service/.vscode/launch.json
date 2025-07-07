@@ -1,0 +1,36 @@
+{
+  "configurations": [
+    {
+      "name": "Attach Huntask.Tasks.Service to .NET in Docker",
+      "type": "coreclr",
+      "request": "attach",
+      "processName": "dotnet",
+      "pipeTransport": {
+        "pipeProgram": "docker",
+        "pipeArgs": ["exec", "-i", "huntask-shell-huntask-tasks-service-1"],
+        "debuggerPath": "/vsdbg/debug-entry",
+        "pipeCwd": "${workspaceFolder}",
+        "quoteArgs": false
+      },
+      "sourceFileMap": {
+        "/app":"${workspaceFolder}"
+      },
+      "justMyCode": true
+    },
+    {
+      "name": "Huntask.Tasks.Service .NET Launch (web)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-huntask-tasks-service",
+      "program": "${workspaceFolder}/bin/Debug/net9.0/Huntask.Tasks.Service.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "uriFormat": "http://localhost:8080/swagger",
+        "pattern": "Now listening on: http://\\[::\\]:8080"
+      },
+    }
+  ],
+}

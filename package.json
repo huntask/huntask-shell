@@ -10,12 +10,9 @@
     "prepare": "husky install",
     "caddy:trust": "choco install caddy --yes --force && powershell -Command \"Start-Process -NoNewWindow -FilePath 'caddy' -ArgumentList 'run --config Caddyfile'; Start-Sleep -Seconds 5; caddy trust; Stop-Process -Name caddy -Force\"",
     "docker:build": "docker compose -f docker-compose.yml build",
-    "docker:build:debug": "docker compose -f docker-compose.yml -f docker-compose.debug.yml build",
-    "docker:run:db": "docker compose -f docker-compose.yml --profile db --profile tools",
-    "docker:run": "docker compose -f docker-compose.yml --profile frontend --profile backend --profile tools --profile proxy up",
-    "docker:run:detach": "docker compose -f docker-compose.yml --profile frontend --profile backend --profile proxy up -d"
-  },
-  "dependencies": {
-    "uuidv7": "^1.0.2"
+    "docker:build:debug": "docker compose -f docker-compose.yml -f docker-compose.debug.yml build --no-cache",
+    "docker:run:db": "docker compose -f docker-compose.yml --profile db --profile tools up",
+    "docker:run": "docker compose -f docker-compose.yml -f docker-compose.debug.yml --profile frontend --profile backend --profile tools --profile proxy up",
+    "docker:run:detach": "docker compose -f docker-compose.yml -f docker-compose.debug.yml --profile frontend --profile backend --profile proxy up -d"
   }
 }

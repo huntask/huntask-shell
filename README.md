@@ -20,8 +20,8 @@ A modern .NET microservices starter template. This solution demonstrates best pr
 
 ### Services
 
-- **Identity.Service** – User authentication and management
-- **TodoList.Service** – Todo management API
+- **Huntask.Identity.Service** – User authentication and management
+- **Huntask.Tasks.Service** – Todo management API
 - **PostgreSQL** – Main database
 - **PgAdmin** – Database GUI (development only)
 

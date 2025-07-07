@@ -1,67 +1,68 @@
 {
   "configurations": [
     {
-      "name": "Attach to Identity.Service",
+      "name": "Attach to Huntask.Identity.Service to .NET in Docker",
       "type": "coreclr",
       "request": "attach",
       "processName": "dotnet",
       "pipeTransport": {
         "pipeProgram": "docker",
-        "pipeArgs": ["exec", "-i", "dotnet-service-poc-1-identityservice-1"],
+        "pipeArgs": ["exec", "-i", "huntask-shell-huntask-identity-service-1"],
         "debuggerPath": "/vsdbg/debug-entry",
-        "pipeCwd": "${workspaceFolder}",
+        "pipeCwd": "${workspaceFolder}/services/Huntask.Identity.Service",
         "quoteArgs": false
       },
       "sourceFileMap": {
-        "/app": "${workspaceFolder}/Identity.Service"
-      }
-    },
-    {
-      "name": "Attach TodoList.Service to .NET in Docker",
-      "type": "coreclr",
-      "request": "attach",
-      "processName": "dotnet",
-      "pipeTransport": {
-        "pipeProgram": "docker",
-        "pipeArgs": ["exec", "-i", "dotnet-service-poc-1-todolistservice-1"],
-        "debuggerPath": "/vsdbg/debug-entry",
-        "pipeCwd": "${workspaceFolder}",
-        "quoteArgs": false
-      },
-      "sourceFileMap": {
-        "/app":"${worspaceFolder}/TodoList.Service"
+        "/app": "${workspaceFolder}/services/Huntask.Identity.Service"
       },
       "justMyCode": true
     },
     {
-      "name": "Identity.Service .NET Launch (web)",
+      "name": "Attach Huntask.Tasks.Service to .NET in Docker",
       "type": "coreclr",
-      "request": "launch",
-      "preLaunchTask": "build-identity-service",
-      "program": "${workspaceFolder}/Identity.Service/bin/Debug/net9.0/Identity.Service.dll",
-      "args": [],
-      "cwd": "${workspaceFolder}/Identity.Service",
-      "stopAtEntry": false,
-      "serverReadyAction": {
-        "action": "openExternally",
-        "uriFormat": "http://localhost:8081/identity/swagger",
-        "pattern": "Now listening on: http://\\[::\\]:8081"
+      "request": "attach",
+      "processName": "dotnet",
+      "pipeTransport": {
+        "pipeProgram": "docker",
+        "pipeArgs": ["exec", "-i", "huntask-shell-huntask-tasks-service-1"],
+        "debuggerPath": "/vsdbg/debug-entry",
+        "pipeCwd": "${workspaceFolder}/services/Huntask.Tasks.Service",
+        "quoteArgs": false
       },
+      "sourceFileMap": {
+        "/app": "${workspaceFolder}/services/Huntask.Tasks.Service"
+      },
+      "justMyCode": true
     },
     {
-      "name": "TodoList.Service .NET Launch (web)",
+      "name": "Huntask.Identity.Service .NET Launch (web)",
       "type": "coreclr",
       "request": "launch",
-      "preLaunchTask": "build-todolist-service",
-      "program": "${workspaceFolder}/TodoList.Service/bin/Debug/net9.0/TodoList.Service.dll",
+      "preLaunchTask": "build-huntask-identity-service",
+      "program": "${workspaceFolder}/services/Huntask.Identity.Service/bin/Debug/net9.0/Huntask.Identity.Service.dll",
       "args": [],
-      "cwd": "${workspaceFolder}/TodoList.Service",
+      "cwd": "${workspaceFolder}/services/Huntask.Identity.Service",
       "stopAtEntry": false,
       "serverReadyAction": {
         "action": "openExternally",
-        "uriFormat": "http://localhost:8080/todolist/swagger",
+        "uriFormat": "http://localhost:8081/swagger",
+        "pattern": "Now listening on: http://\\[::\\]:8081"
+      }
+    },
+    {
+      "name": "Huntask.Tasks.Service .NET Launch (web)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-huntask-tasks-service",
+      "program": "${workspaceFolder}/services/Huntask.Tasks.Service/bin/Debug/net9.0/Huntask.Tasks.Service.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/services/Huntask.Tasks.Service",
+      "stopAtEntry": false,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "uriFormat": "http://localhost:8080/swagger",
         "pattern": "Now listening on: http://\\[::\\]:8080"
-      },
+      }
     }
-  ],
+  ]
 }

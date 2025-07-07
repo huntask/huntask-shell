@@ -1,65 +1,65 @@
 version: '3.9'
 
 services:
-  identityservice:
+  huntask-identity-service:
     build:
-      context: .
-      dockerfile: Identity.Service/Dockerfile
+      context: services/Huntask.Identity.Service/
+      dockerfile: Dockerfile
     ports:
-      - "8081:8080"
+      - "8081:8081"
     profiles:
       - backend
       - identity
     environment:
       - ASPNETCORE_ENVIRONMENT
-      - ConnectionStrings__TodoListDbConnection
+      - ConnectionStrings__HuntaskDbConnection
+      - HUNTASK_IDENTITY_SERVICE_HTTP_PORT
       - Jwt__Issuer
       - Jwt__Audience
       - Jwt__Secret
       - Jwt__ValidityHours
       - Serilog__MinimumLevel__EntityFrameworkCore
       - Serilog__MinimumLevel__Npgsql
-      - Serilog__MinimumLevel__Identity.Service
+      - Serilog__MinimumLevel__Huntask.Identity.Service
     depends_on:
-      - db
+      - huntask-db
     volumes:
-      - ./logs/Identity.Service:/app/logs
+      - ./logs/Huntask.Identity.Service:/app/logs
     networks:
       - backend
 
-  todolistservice:
+  huntask-tasks-service:
     build:
-      context: .
-      dockerfile: TodoList.Service/Dockerfile
+      context: services/Huntask.Tasks.Service/
+      dockerfile: Dockerfile
     ports:
      - "8080:8080"
     profiles:
       - backend
-      - todolist
+      - tasks
     environment:
       - ASPNETCORE_ENVIRONMENT
-      - ASPNETCORE__Kestrel__Certificates__Default__Path
-      - ASPNETCORE__Kestrel__Certificates__Default__Password
-      - ConnectionStrings__TodoListDbConnection
+      - ConnectionStrings__HuntaskDbConnection
+      - HUNTASK_TASKS_SERVICE_HTTP_PORT
       - Jwt__Issuer
       - Jwt__Audience
       - Jwt__Secret
       - Jwt__ValidityHours
       - Serilog__MinimumLevel__EntityFrameworkCore
       - Serilog__MinimumLevel__Npgsql
-      - Serilog__MinimumLevel__TodoList.Service
+      - Serilog__MinimumLevel__Huntask.Tasks.Service
     depends_on:
-      - db
-      - identityservice
+      - huntask-db
+      - huntask-identity-service
     volumes:
-      - ./logs/TodoList.Service:/app/logs
+      - ./logs/Huntask.Tasks.Service:/app/logs
     networks:
       - backend
 
-  todolistclient:
+  huntask-client:
     build:
-      context: .
-      dockerfile: todolist-client/Dockerfile
+      context: huntask-client
+      dockerfile: Dockerfile
     profiles:
       - frontend
     ports:
@@ -83,7 +83,7 @@ services:
     networks:
       - backend
 
-  db:
+  huntask-db:
     image: postgres:16
     restart: always
     environment:
@@ -111,7 +111,7 @@ services:
       - PGADMIN_DEFAULT_EMAIL
       - PGADMIN_DEFAULT_PASSWORD
     depends_on:
-      - db
+      - huntask-db
     networks:
       - backend
 

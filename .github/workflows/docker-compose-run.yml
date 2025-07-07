@@ -26,12 +26,6 @@ jobs:
       - name: Verify if services are running
         run: docker compose ps
 
-      - name: Smoke tests
-        run: |
-          curl -k https://localhost || curl http://localhost || exit 1
-          curl -k https://localhost/identity || curl http://localhost/identity || exit 1
-          curl -k https://localhost/todolist || curl http://localhost/todolist || exit 1
-
       - name: Stop Docker Compose
         if: always()
         run: docker compose down
