@@ -10,6 +10,6 @@ var app = builder
   .ConfigureBuilder()
   .Build();
 app.ConfigureWebApplication();
-app.RegisterIdentityEndpoints();
+app.RegisterHealthcheckEndpoint();
 
 app.Run();
