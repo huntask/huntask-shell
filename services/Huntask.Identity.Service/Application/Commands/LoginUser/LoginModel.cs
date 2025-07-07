@@ -1,3 +1,3 @@
-namespace Huntask.Identity.Service.application.Commands.LoginUser;
+namespace Huntask.Identity.Service.Application.Commands.LoginUser;
 
 public record LoginModel(string UserName, string Password);

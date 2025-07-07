@@ -4,6 +4,10 @@ using Huntask.Identity.Service.Infrastructure.Models.Options;
 using CorrelationId.DependencyInjection;
 using Huntask.Identity.Service.Application.Commands.RegisterUserCommand;
 using MediatR;
+using System.Text.Json;
+using Microsoft.AspNetCore.Mvc;
+using Huntask.Identity.Service.Presentation.Swagger;
+using Microsoft.OpenApi.Models;
 
 namespace Huntask.Identity.Service.Presentation.Extensions;
 
@@ -12,12 +16,45 @@ public static class ServiceCollectionExtensions
   public static void RegisterAspNetServices(this IServiceCollection services, WebApplicationBuilder builder)
   {
     services
-      .AddAuth(builder)
+      .AddWebApiControllers()
+      .AddApiVersioning()
       .AddCorrelationId()
       .AddSwagger()
-      .ConfigureCors(builder)
       .ConfigureCache()
-      .AddMediatR();
+      .AddMediatR()
+      .AddAuth(builder)
+      .ConfigureCors(builder);
+  }
+
+  private static IServiceCollection AddWebApiControllers(this IServiceCollection services)
+  {
+    services
+      .AddControllers()
+      .AddJsonOptions(options =>
+      {
+        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
+      });
+
+    return services;
+  }
+
+  private static IServiceCollection AddApiVersioning(this IServiceCollection services)
+  {
+    services.AddApiVersioning(options =>
+    {
+      options.ReportApiVersions = true;
+      options.AssumeDefaultVersionWhenUnspecified = true;
+      options.DefaultApiVersion = new ApiVersion(1, 0);
+    });
+
+    services.AddVersionedApiExplorer(options =>
+    {
+      options.GroupNameFormat = "'v'VVV";
+      options.SubstituteApiVersionInUrl = true;
+    });
+
+    return services;
   }
 
   private static IServiceCollection AddAuth(this IServiceCollection services, WebApplicationBuilder builder)
@@ -45,12 +82,8 @@ public static class ServiceCollectionExtensions
   private static IServiceCollection AddSwagger(this IServiceCollection services)
   {
     services.AddEndpointsApiExplorer();
-    services.AddOpenApiDocument(config =>
-    {
-      config.DocumentName = "Huntask.Identity.Api";
-      config.Title = "Huntask.Identity.Api";
-      config.Version = "v1";
-    });
+    services.AddSwaggerGen();
+    services.ConfigureOptions<ConfigureSwaggerOptions>();
 
     return services;
   }

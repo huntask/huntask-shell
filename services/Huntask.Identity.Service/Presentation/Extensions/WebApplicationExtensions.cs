@@ -2,6 +2,7 @@ using CorrelationId;
 using Huntask.Identity.Service.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Huntask.Identity.Service.Presentation.Middlewares;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 namespace Huntask.Identity.Service.Presentation.Extensions;
 
@@ -10,6 +11,7 @@ public static class WebApplicationExtensions
   public static void ConfigureWebApplication(this WebApplication app)
   {
     app
+      .MapWebApiControllers()
       .ConfigureSwagger()
       .ConfigureDatabase()
       .ConfigureHttps()
@@ -18,22 +20,29 @@ public static class WebApplicationExtensions
       .UseCorrelationId();
   }
 
+  private static WebApplication MapWebApiControllers(this WebApplication app)
+  {
+    app.MapControllers();
+
+    return app;
+  }
+
   private static WebApplication ConfigureSwagger(this WebApplication app)
   {
     if (app.Environment.IsDevelopment())
     {
-      var documentPath = "/swagger/{documentName}/swagger.json";
-      app.UseOpenApi(config =>
+      app.UseSwagger();
+      app.UseSwaggerUI(c =>
       {
-        config.Path = documentPath;
-      });
+        var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
-      app.UseSwaggerUi(config =>
-      {
-        config.DocumentTitle = "Huntask.Identity.Api";
-        config.Path = "/swagger";
-        config.DocumentPath = documentPath;
-        config.DocExpansion = "list";
+        foreach (var description in provider.ApiVersionDescriptions)
+        {
+          c.SwaggerEndpoint(
+            $"/swagger/{description.GroupName}/swagger.json",
+            $"Huntask.Identity.Api {description.GroupName}"
+          );
+        }
       });
     }
 
