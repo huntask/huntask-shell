@@ -1,7 +1,6 @@
-using System;
 using System.Text.Json.Serialization;
 
-namespace Huntask.Identity.Service.Presentation.Models;
+namespace Huntask.Identity.Service.Application.Models;
 
 public class LoginResponseModel(string authToken, string userId, string userName)
 {
