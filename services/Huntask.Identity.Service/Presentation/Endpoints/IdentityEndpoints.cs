@@ -1,8 +1,10 @@
-using Huntask.Identity.Service.Infrastructure.Services;
-using Huntask.Identity.Service.Presentation.Models;
-using Microsoft.AspNetCore.Identity;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
+using Huntask.Identity.Service.application.Commands.LoginUser;
+using Huntask.Identity.Service.Application.Commands.LoginUser;
+using Huntask.Identity.Service.Application.Commands.RegisterUserCommand;
+using Huntask.Identity.Service.Application.Models;
+using Huntask.Identity.Service.Presentation.Models;
 
 namespace Huntask.Identity.Service.Presentation.Endpoints;
 
@@ -20,55 +22,36 @@ public static class IdentityEndpoints
 
   private static async Task<IResult> RegisterAsync(
     UserRegistrationModel model,
-    UserManager<IdentityUser> userManager,
-    HttpContext http)
+    IMediator mediator)
   {
-    var user = new IdentityUser(model.UserName)
-    {
-      Email = model.Email
-    };
-    var result = await userManager.CreateAsync(user, model.Password);
+    var result = await mediator.Send(new RegisterUserCommand(model));
 
-    if (result.Succeeded)
+    if (result.Success)
     {
-      Log.Logger.Debug("User creationg has succeeded; User email: {Email}.", model.Email);
-      return Results.Created("", new ApiResponse<object>(true));
+      return Results.Created(
+        "",
+        new ApiResult<UserRegistrationModel>(result)
+      );
     }
 
-    Log.Logger.Debug("User creationg has not succeeded; User email: {Email}.", model.Email);
-    return Results.BadRequest(new ApiResponse<UserRegistrationModel>(
-      false,
-      model,
-      [.. result.Errors.Select(e => e.Description)]
-    ));
+    return Results.BadRequest(
+      new ApiResult<UserRegistrationModel>(result)
+    );
   }
 
   private static async Task<IResult> LoginAsync(
     [FromBody] LoginModel model,
-    UserManager<IdentityUser> userManager,
-    SignInManager<IdentityUser> signInManager,
-    ITokenService tokenService)
+    IMediator mediator)
   {
-    var user = await userManager.FindByNameAsync(model.UserName);
-    if (user == null)
+    var result = await mediator.Send(new LoginUserCommand(model));
+
+    if (!result.Success)
     {
-      Log.Logger.Debug("User login has not succeeded; The login model is empty.");
       return Results.Unauthorized();
     }
 
-    var passwordCheck = await signInManager.CheckPasswordSignInAsync(user, model.Password, false);
-    if (!passwordCheck.Succeeded)
-    {
-      Log.Logger.Debug("User login has not succeeded; The login model is empty.");
-      return Results.Unauthorized();
-    }
-
-    var token = tokenService.GenerateToken(user);
-    Log.Logger.Debug("User login has succeeded; Username: {Username}", model.UserName);
-
-    return Results.Ok(new ApiResponse<LoginResponseModel>(
-      true,
-      new LoginResponseModel(token, user.Id, user.UserName ?? "")
-    ));
+    return Results.Ok(
+      new ApiResult<LoginResponseModel>(result)
+    );
   }
 }

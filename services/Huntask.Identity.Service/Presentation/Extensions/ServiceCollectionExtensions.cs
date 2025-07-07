@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Huntask.Identity.Service.Infrastructure.Contexts;
 using Huntask.Identity.Service.Infrastructure.Models.Options;
 using CorrelationId.DependencyInjection;
+using Huntask.Identity.Service.Application.Commands.RegisterUserCommand;
+using MediatR;
 
 namespace Huntask.Identity.Service.Presentation.Extensions;
 
@@ -14,7 +16,8 @@ public static class ServiceCollectionExtensions
       .AddCorrelationId()
       .AddSwagger()
       .ConfigureCors(builder)
-      .ConfigureCache();
+      .ConfigureCache()
+      .AddMediatR();
   }
 
   private static IServiceCollection AddAuth(this IServiceCollection services, WebApplicationBuilder builder)
@@ -31,9 +34,9 @@ public static class ServiceCollectionExtensions
   {
     services.AddDefaultCorrelationId(options =>
     {
-        options.IncludeInResponse = true;
-        options.RequestHeader = "X-Correlation-ID";
-        options.UpdateTraceIdentifier = true;
+      options.IncludeInResponse = true;
+      options.RequestHeader = "X-Correlation-ID";
+      options.UpdateTraceIdentifier = true;
     });
 
     return services;
@@ -60,7 +63,8 @@ public static class ServiceCollectionExtensions
       {
         options.AddPolicy(
           "AllowDevelopment",
-          builder => {
+          builder =>
+          {
             builder
               .SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
               .AllowAnyHeader()
@@ -78,6 +82,12 @@ public static class ServiceCollectionExtensions
     services.AddOutputCache();
     services.AddResponseCaching();
 
+    return services;
+  }
+
+  private static IServiceCollection AddMediatR(this IServiceCollection services)
+  {
+    services.AddMediatR(typeof(RegisterUserCommandHandler).Assembly);
     return services;
   }
 }

@@ -1,5 +1,4 @@
 using System.Text.Json;
-using Microsoft.AspNetCore.Http;
 using Huntask.Identity.Service.Presentation.Models;
 
 namespace Huntask.Identity.Service.Presentation.Middlewares;
@@ -24,7 +23,7 @@ public class ExceptionsMiddleware
       context.Response.ContentType = "application/json";
       context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
-      var response = new ApiResponse<object>(
+      var response = new ApiResult<object>(
         Success: false,
         Data: default,
         Errors: [ex.Message]
