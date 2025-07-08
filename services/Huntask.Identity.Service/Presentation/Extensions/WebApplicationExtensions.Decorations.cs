@@ -1,28 +1,19 @@
 using CorrelationId;
-using Huntask.Identity.Service.Infrastructure.Contexts;
-using Microsoft.EntityFrameworkCore;
 using Huntask.Identity.Service.Presentation.Middlewares;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 namespace Huntask.Identity.Service.Presentation.Extensions;
 
-public static class WebApplicationExtensions
+public static class WebApplicationDecorationsExtensions
 {
-  public static void ConfigureWebApplication(this WebApplication app)
+  public static WebApplication ConfigureDecorations(this WebApplication app)
   {
     app
-      .MapWebApiControllers()
       .ConfigureSwagger()
-      .ConfigureDatabase()
       .ConfigureHttps()
       .ConfigureMiddleware()
       .ConfigureCache()
       .UseCorrelationId();
-  }
-
-  private static WebApplication MapWebApiControllers(this WebApplication app)
-  {
-    app.MapControllers();
 
     return app;
   }
@@ -44,24 +35,6 @@ public static class WebApplicationExtensions
           );
         }
       });
-    }
-
-    return app;
-  }
-
-  private static WebApplication ConfigureDatabase(this WebApplication app)
-  {
-    try
-    {
-      using (var scope = app.Services.CreateScope())
-      {
-        var db = scope.ServiceProvider.GetRequiredService<IdentityContext>();
-        db.Database.Migrate();
-      }
-    }
-    catch (Exception ex)
-    {
-      Console.WriteLine($"Error during database migration: {ex.Message}");
     }
 
     return app;

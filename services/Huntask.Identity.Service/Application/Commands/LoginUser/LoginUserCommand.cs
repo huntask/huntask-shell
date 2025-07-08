@@ -1,5 +1,4 @@
 using MediatR;
-using Huntask.Identity.Service.Application.Commands.LoginUser;
 using Huntask.Identity.Service.Application.Models;
 
 namespace Huntask.Identity.Service.Application.Commands.LoginUser;

@@ -3,14 +3,9 @@ using Huntask.Identity.Service.Presentation.Models;
 
 namespace Huntask.Identity.Service.Presentation.Middlewares;
 
-public class ExceptionsMiddleware
+public class ExceptionsMiddleware(RequestDelegate next)
 {
-  private readonly RequestDelegate next;
-
-  public ExceptionsMiddleware(RequestDelegate next)
-  {
-    this.next = next;
-  }
+  private readonly RequestDelegate next = next;
 
   public async Task InvokeAsync(HttpContext context)
   {

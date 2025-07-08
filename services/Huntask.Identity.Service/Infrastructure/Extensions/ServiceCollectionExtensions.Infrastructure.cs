@@ -4,13 +4,15 @@ using Huntask.Identity.Service.Infrastructure.Contexts;
 
 namespace Huntask.Identity.Service.Infrastructure.Extensions;
 
-public static class ServiceCollectionExtensions
+public static class ServiceCollectionInfrastructureExtensions
 {
-  public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
+  public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
   {
     services
       .AddDatabase(configuration)
       .AddServices();
+
+    return services;
   }
 
   private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
