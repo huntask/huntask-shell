@@ -1,27 +1,18 @@
-using Microsoft.AspNetCore.Http;
-
 namespace Huntask.Identity.Service.Presentation.Middlewares;
 
-public class CorrelationIdMiddleware
+public class CorrelationIdMiddleware(RequestDelegate next)
 {
-  private const string HeaderName = "X-Correlation-Id";
-
-  private readonly RequestDelegate next;
-
-  public CorrelationIdMiddleware(RequestDelegate next)
-  {
-    this.next = next;
-  }
+  private readonly RequestDelegate next = next;
 
   public async Task InvokeAsync(HttpContext context)
   {
-    if (!context.Request.Headers.TryGetValue(HeaderName, out var correlationId))
+    if (!context.Request.Headers.TryGetValue(Constants.CorrelationIdHeaderName, out var correlationId))
     {
       correlationId = Guid.NewGuid().ToString();
     }
 
     context.TraceIdentifier = correlationId!;
-    context.Response.Headers[HeaderName] = correlationId;
+    context.Response.Headers[Constants.CorrelationIdHeaderName] = correlationId;
 
     await next(context);
   }

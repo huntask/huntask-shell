@@ -1,5 +1,4 @@
 using System.Net;
-using Huntask.Identity.Service.Presentation.Models;
 
 namespace Huntask.Identity.Service.Application.Models;
 

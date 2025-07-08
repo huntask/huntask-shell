@@ -1,5 +1,7 @@
+using Huntask.Identity.Service.Infrastructure.Contexts;
+using Huntask.Identity.Service.Infrastructure.Models.Options;
+using Microsoft.AspNetCore.Identity;
 using Serilog;
-using Serilog.Formatting.Compact;
 using Serilog.Sinks.SystemConsole.Themes;
 
 namespace Huntask.Identity.Service.Presentation.Extensions;
@@ -12,6 +14,8 @@ public static class WebApplicationBuilderExtensions
   {
     builder
       .ConfigureLogs()
+      .ConfigureCors()
+      .ConfigureAuth()
       .ConfigureKestrel();
 
     return builder;
@@ -30,6 +34,38 @@ public static class WebApplicationBuilderExtensions
         .ReadFrom.Configuration(context.Configuration)
         .ReadFrom.Services(services);
     });
+
+    return builder;
+  }
+
+  private static WebApplicationBuilder ConfigureCors(this WebApplicationBuilder builder)
+  {
+    builder.Services.AddCors(options =>
+    {
+      if (builder.Environment.IsDevelopment())
+      {
+        options.AddPolicy(
+          "AllowDevelopment",
+          builder =>
+          {
+            builder
+              .SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+          }
+        );
+      }
+    });
+
+    return builder;
+  }
+
+  private static WebApplicationBuilder ConfigureAuth(this WebApplicationBuilder builder)
+  {
+    builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
+    builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+      .AddEntityFrameworkStores<IdentityContext>()
+      .AddDefaultTokenProviders();
 
     return builder;
   }
