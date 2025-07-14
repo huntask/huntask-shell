@@ -1,8 +1,5 @@
-using System.Net;
 using Huntask.Identity.Service.Application.Models;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Serilog;
 
 namespace Huntask.Identity.Service.Application.Commands.RegisterUserCommand;
 

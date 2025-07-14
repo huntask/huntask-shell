@@ -15,3 +15,10 @@ services:
       dockerfile: Dockerfile.debug
     ports:
      - "5002:5005"
+
+  huntask-assets-service:
+    build:
+      context: services/Huntask.Assets.Service/
+      dockerfile: Dockerfile.debug
+    ports:
+     - "5003:5005"

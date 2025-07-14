@@ -35,6 +35,22 @@
       "justMyCode": true
     },
     {
+      "name": "Attach to Huntask.Assets.Service to .NET in Docker",
+      "type": "coreclr",
+      "request": "attach",
+      "processName": "dotnet",
+      "pipeTransport": {
+        "pipeProgram": "docker",
+        "pipeArgs": ["exec", "-i", "huntask-shell-huntask-assets-service-1"],
+        "debuggerPath": "/vsdbg/debug-entry",
+        "pipeCwd": "${workspaceFolder}",
+        "quoteArgs": false
+      },
+      "sourceFileMap": {
+        "/app": "${workspaceFolder}"
+      }
+    },
+    {
       "name": "Huntask.Identity.Service .NET Launch (web)",
       "type": "coreclr",
       "request": "launch",
@@ -63,6 +79,21 @@
         "uriFormat": "http://localhost:8080/swagger",
         "pattern": "Now listening on: http://\\[::\\]:8080"
       }
+    },
+    {
+      "name": "Huntask.Assets.Service .NET Launch (web)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build-huntask-assets-service",
+      "program": "${workspaceFolder}/services/Huntask.Assets.Service/bin/Debug/net9.0/Huntask.Assets.Service.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/services/Huntask.Assets.Service",
+      "stopAtEntry": false,
+      "serverReadyAction": {
+        "action": "openExternally",
+        "uriFormat": "http://localhost:8082/swagger",
+        "pattern": "Now listening on: http://\\[::\\]:8082"
+      },
     }
   ]
 }

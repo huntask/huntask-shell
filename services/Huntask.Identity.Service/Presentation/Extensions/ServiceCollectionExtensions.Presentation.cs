@@ -1,6 +1,4 @@
 using Huntask.Identity.Service.Application.Commands.RegisterUserCommand;
-using MediatR;
-using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Huntask.Identity.Service.Presentation.Extensions;

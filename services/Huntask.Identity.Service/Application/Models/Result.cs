@@ -1,4 +1,3 @@
-using System.Net;
 
 namespace Huntask.Identity.Service.Application.Models;
 

@@ -1,8 +1,6 @@
 using System.Security.Claims;
-using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
 using Huntask.Identity.Service.Presentation.Models;
 using Huntask.Identity.Service.Domain.Entities;
 using Huntask.Identity.Service.Domain.Repositories;

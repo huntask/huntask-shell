@@ -1,7 +1,6 @@
 using Huntask.Identity.Service.Infrastructure.Contexts;
 using Huntask.Identity.Service.Infrastructure.Models.Options;
 using Microsoft.AspNetCore.Identity;
-using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 
 namespace Huntask.Identity.Service.Presentation.Extensions;

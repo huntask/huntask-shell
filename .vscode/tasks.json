@@ -24,6 +24,18 @@
         "${workspaceFolder}/services/Huntask.Identity.Service/Huntask.Identity.Service.csproj"
       ],
       "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build-huntask-assets-service",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "build",
+				"--configuration",
+				"Debug",
+        "${workspaceFolder}/services/Huntask.Assets.Service/Huntask.Assets.Service.csproj"
+      ],
+      "problemMatcher": "$msCompile"
     }
   ]
 }

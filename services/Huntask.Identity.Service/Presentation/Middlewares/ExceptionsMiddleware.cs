@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Huntask.Identity.Service.Presentation.Models;
 
 namespace Huntask.Identity.Service.Presentation.Middlewares;

@@ -1,4 +1,3 @@
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Huntask.Identity.Service.Application.Commands.LoginUser;
 using Huntask.Identity.Service.Application.Commands.RegisterUserCommand;
