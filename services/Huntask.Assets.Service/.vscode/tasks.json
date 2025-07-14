@@ -1,0 +1,17 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build-huntask-assets-service",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "build",
+				"--configuration",
+				"Debug",
+        "${workspaceFolder}/Huntask.Assets.Service.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}

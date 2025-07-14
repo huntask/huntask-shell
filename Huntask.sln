@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huntask.Identity.Service", "services/Huntask.Identity.Service\Huntask.Identity.Service.csproj", "{40710719-10E1-4759-B13C-03EF935A1A66}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huntask.Identity.Service", "services\Huntask.Identity.Service\Huntask.Identity.Service.csproj", "{40710719-10E1-4759-B13C-03EF935A1A66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huntask.Tasks.Service", "services/Huntask.Tasks.Service\Huntask.Tasks.Service.csproj", "{E5A7567A-BC8E-4035-AE22-75BDC8E9FF0A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huntask.Tasks.Service", "services\Huntask.Tasks.Service\Huntask.Tasks.Service.csproj", "{E5A7567A-BC8E-4035-AE22-75BDC8E9FF0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huntask.Assets.Service", "services\Huntask.Assets.Service\Huntask.Assets.Service.csproj", "{A8060DA4-6C9C-4425-A68C-81C118C22204}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,8 +43,23 @@ Global
 		{E5A7567A-BC8E-4035-AE22-75BDC8E9FF0A}.Release|x64.Build.0 = Release|Any CPU
 		{E5A7567A-BC8E-4035-AE22-75BDC8E9FF0A}.Release|x86.ActiveCfg = Release|Any CPU
 		{E5A7567A-BC8E-4035-AE22-75BDC8E9FF0A}.Release|x86.Build.0 = Release|Any CPU
+		{A8060DA4-6C9C-4425-A68C-81C118C22204}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8060DA4-6C9C-4425-A68C-81C118C22204}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8060DA4-6C9C-4425-A68C-81C118C22204}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A8060DA4-6C9C-4425-A68C-81C118C22204}.Debug|x64.Build.0 = Debug|Any CPU
+		{A8060DA4-6C9C-4425-A68C-81C118C22204}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A8060DA4-6C9C-4425-A68C-81C118C22204}.Debug|x86.Build.0 = Debug|Any CPU
+		{A8060DA4-6C9C-4425-A68C-81C118C22204}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8060DA4-6C9C-4425-A68C-81C118C22204}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8060DA4-6C9C-4425-A68C-81C118C22204}.Release|x64.ActiveCfg = Release|Any CPU
+		{A8060DA4-6C9C-4425-A68C-81C118C22204}.Release|x64.Build.0 = Release|Any CPU
+		{A8060DA4-6C9C-4425-A68C-81C118C22204}.Release|x86.ActiveCfg = Release|Any CPU
+		{A8060DA4-6C9C-4425-A68C-81C118C22204}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A8060DA4-6C9C-4425-A68C-81C118C22204} = {765A818E-29A6-4206-A5AA-E2B53DDFD17D}
 	EndGlobalSection
 EndGlobal

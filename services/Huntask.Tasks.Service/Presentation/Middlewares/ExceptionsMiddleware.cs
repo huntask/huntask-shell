@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Huntask.Identity.Service.Presentation.Models;
 

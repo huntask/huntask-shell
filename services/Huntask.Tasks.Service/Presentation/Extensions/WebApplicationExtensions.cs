@@ -60,7 +60,7 @@ public static class WebApplicationExtensions
     }
     catch (Exception ex)
     {
-      Console.WriteLine($"Error during database migration: {ex.Message}");
+      Log.Error($"Error during database migration: {ex.Message}");
     }
 
     return app;

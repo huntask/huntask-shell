@@ -56,6 +56,36 @@ services:
     networks:
       - backend
 
+  huntask-assets-service:
+    build:
+      context: services/Huntask.Assets.Service/
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    profiles:
+      - backend
+      - assets
+    environment:
+      - ASPNETCORE_ENVIRONMENT
+      - HUNTASK_ASSETS_SERVICE_HTTP_PORT
+      - ConnectionStrings__HuntaskDbConnection
+      - Assets__Folder
+      - Assets__DefaultContainer
+      - Jwt__Issuer
+      - Jwt__Audience
+      - Jwt__Secret
+      - Jwt__ValidityHours
+      - Serilog__MinimumLevel__EntityFrameworkCore
+      - Serilog__MinimumLevel__Npgsql
+      - Serilog__MinimumLevel__Huntask.Assets.Service
+    depends_on:
+      - huntask-db
+    volumes:
+      - ./logs/Huntask.Assets.Service:/app/logs
+      - ./assets:/app/assets
+    networks:
+      - backend
+
   huntask-client:
     build:
       context: huntask-client

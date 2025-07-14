@@ -8,7 +8,7 @@
 2. **Naming and Layout**
     - Use PascalCase for class, record, and method names.
     - Use camelCase for local variables and parameters (except record primary constructor parameters, which use PascalCase).
-    - Use four spaces for indentation, not tabs.
+    - Use two spaces for indentation, not tabs.
     - Use the Allman style for braces (open/close on their own lines).
     - Limit lines to 65 characters for readability.
 

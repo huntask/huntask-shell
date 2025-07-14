@@ -1,9 +1,6 @@
-using MediatR;
 using Huntask.Identity.Service.Application.Models;
 using Microsoft.AspNetCore.Identity;
 using Huntask.Identity.Service.Infrastructure.Services;
-using Serilog;
-using System.Net;
 
 namespace Huntask.Identity.Service.Application.Commands.LoginUser;
 
