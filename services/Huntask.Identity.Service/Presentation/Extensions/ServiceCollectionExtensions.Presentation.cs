@@ -1,5 +1,5 @@
-using Huntask.Identity.Service.Application.Commands.RegisterUserCommand;
-using Microsoft.AspNetCore.Mvc;
+using Huntask.Common.Presentation.Extensions;
+using Huntask.Identity.Service.Application.Commands.RegisterUser;
 
 namespace Huntask.Identity.Service.Presentation.Extensions;
 
@@ -8,40 +8,8 @@ public static class ServiceCollectionPresentationExtensions
   public static IServiceCollection AddPresentationServices(this IServiceCollection services)
   {
     services
-      .AddApiControllers()
-      .AddApiVersioning()
+      .AddCommonPresentationServices()
       .AddMediatR();
-
-    return services;
-  }
-
-  private static IServiceCollection AddApiControllers(this IServiceCollection services)
-  {
-    services
-      .AddControllers()
-      .AddJsonOptions(options =>
-      {
-        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-        options.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
-      });
-
-    return services;
-  }
-
-  private static IServiceCollection AddApiVersioning(this IServiceCollection services)
-  {
-    services.AddApiVersioning(options =>
-    {
-      options.ReportApiVersions = true;
-      options.AssumeDefaultVersionWhenUnspecified = true;
-      options.DefaultApiVersion = new ApiVersion(1, 0);
-    });
-
-    services.AddVersionedApiExplorer(options =>
-    {
-      options.GroupNameFormat = "'v'VVV";
-      options.SubstituteApiVersionInUrl = true;
-    });
 
     return services;
   }

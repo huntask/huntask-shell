@@ -8,8 +8,7 @@ services:
     ports:
       - "8081:8081"
     profiles:
-      - backend
-      - identity
+      - be
     environment:
       - ASPNETCORE_ENVIRONMENT
       - ConnectionStrings__HuntaskDbConnection
@@ -35,8 +34,7 @@ services:
     ports:
      - "8080:8080"
     profiles:
-      - backend
-      - tasks
+      - be
     environment:
       - ASPNETCORE_ENVIRONMENT
       - ConnectionStrings__HuntaskDbConnection
@@ -63,8 +61,7 @@ services:
     ports:
       - "8082:8082"
     profiles:
-      - backend
-      - assets
+      - be
     environment:
       - ASPNETCORE_ENVIRONMENT
       - HUNTASK_ASSETS_SERVICE_HTTP_PORT
@@ -91,7 +88,7 @@ services:
       context: huntask-client
       dockerfile: Dockerfile
     profiles:
-      - frontend
+      - fe
     ports:
       - "4000:4000"
     networks:
@@ -101,11 +98,12 @@ services:
     image: caddy:2
     container_name: caddy
     restart: unless-stopped
-    profiles:
-      - proxy
     ports:
       - "80:80"
       - "443:443"
+    profiles:
+      - fe
+      - be
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
@@ -121,7 +119,6 @@ services:
       - POSTGRES_PASSWORD
       - POSTGRES_DB
     profiles:
-      - backend
       - db
     ports:
       - "5432:5432"
@@ -136,7 +133,7 @@ services:
     ports:
       - "5050:80"
     profiles:
-      - tools
+      - db
     environment:
       - PGADMIN_DEFAULT_EMAIL
       - PGADMIN_DEFAULT_PASSWORD

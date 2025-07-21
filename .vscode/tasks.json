@@ -14,7 +14,7 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "build-huntask-identity-service",
+      "label": "build-huntask-identity-service-standalone",
       "type": "process",
       "command": "dotnet",
       "args": [
@@ -26,7 +26,7 @@
       "problemMatcher": "$msCompile"
     },
     {
-      "label": "build-huntask-assets-service",
+      "label": "build-huntask-assets-service-standalone",
       "type": "process",
       "command": "dotnet",
       "args": [
@@ -36,6 +36,30 @@
         "${workspaceFolder}/services/Huntask.Assets.Service/Huntask.Assets.Service.csproj"
       ],
       "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build-huntask-common",
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "build",
+				"--configuration",
+				"Debug",
+        "${workspaceFolder}/Huntask.Common/Huntask.Common.csproj"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build-huntask-identity-service",
+      "dependsOn": ["build-huntask-common", "build-huntask-identity-service-standalone"],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
+    },
+    {
+      "label": "build-huntask-assets-service",
+      "dependsOn": ["build-huntask-common", "build-huntask-assets-service-standalone"],
+      "dependsOrder": "sequence",
+      "problemMatcher": []
     }
   ]
 }

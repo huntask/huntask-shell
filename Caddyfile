@@ -1,9 +1,22 @@
-{
-  auto_https off
-}
-
 localhost {
-  handle_path /huntask/* {
-    reverse_proxy huntask-client:4000
-  }
+	handle_path /huntask/* {
+		reverse_proxy huntask-client:4000
+	}
+
+	handle_path /identity/* {
+		reverse_proxy huntask-identity-service:8081
+	}
+
+	handle_path /assets/* {
+		reverse_proxy huntask-assets-service:8082
+	}
+
+	@tasks path_regexp ^/api/v\d+/tasks/.*
+	reverse_proxy @tasks huntask-tasks-service:8080
+
+	@identity path_regexp ^/api/v\d+/identity/.*
+	reverse_proxy @identity huntask-identity-service:8081
+
+	@assets path_regexp ^/api/v\d+/asset/.*
+	reverse_proxy @assets huntask-assets-service:8082
 }

@@ -5,7 +5,7 @@ COPY *.csproj .
 RUN dotnet restore
 
 COPY . .
-RUN dotnet publish Huntask.Tasks.Service.csproj -c Debug -o out
+RUN dotnet publish Huntask.Tasks.Service.csproj -c Release -o out
 
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 WORKDIR /app

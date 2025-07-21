@@ -1,3 +1,4 @@
+using Huntask.Common;
 using Huntask.Identity.Service.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,7 +32,7 @@ public static class WebApplicationPresentationExtensions
     }
     catch (Exception ex)
     {
-      Log.Error($"Error during database migration: {ex.Message}");
+      Log.Error(Constants.LogTemplate, $"Error during database migration: {ex.Message}");
     }
 
     return app;

@@ -1,15 +1,16 @@
-using Huntask.Identity.Service.Application.Models;
+using Huntask.Common.Application.Models;
+using Huntask.Identity.Service.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace Huntask.Identity.Service.Application.Commands.RegisterUserCommand;
+namespace Huntask.Identity.Service.Application.Commands.RegisterUser;
 
 public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Result<UserRegistrationModel>>
 {
   private const string BadRequestErrorMessage = "User creation has succeeded; User email: {Email}.";
 
-  private readonly UserManager<IdentityUser> userManager;
+  private readonly UserManager<User> userManager;
 
-  public RegisterUserCommandHandler(UserManager<IdentityUser> userManager)
+  public RegisterUserCommandHandler(UserManager<User> userManager)
   {
     ArgumentNullException.ThrowIfNull(userManager);
 
@@ -19,9 +20,13 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
   public async Task<Result<UserRegistrationModel>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
   {
     var model = request.Model;
-    var user = new IdentityUser(model.UserName)
+    var user = new User
     {
-      Email = model.Email
+      UserName = model.Email ?? model.FirstName,
+      Email = model.Email,
+      FirstName = model.FirstName,
+      LastName = model.LastName,
+      AvatarAssetId = model.AvatarAssetId
     };
     var result = await userManager.CreateAsync(user, model.Password);
 
