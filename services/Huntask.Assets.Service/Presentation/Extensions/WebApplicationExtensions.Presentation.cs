@@ -31,7 +31,7 @@ public static class WebApplicationPresentationExtensions
     }
     catch (Exception ex)
     {
-      Log.Error($"Error during database migration: {ex.Message}");
+      Log.Error(Common.Constants.LogTemplate, $"Error during database migration: {ex.Message}");
     }
 
     return app;

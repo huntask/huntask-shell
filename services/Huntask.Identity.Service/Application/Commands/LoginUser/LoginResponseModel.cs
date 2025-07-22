@@ -2,14 +2,14 @@ using System.Text.Json.Serialization;
 
 namespace Huntask.Identity.Service.Application.Models;
 
-public class LoginResponseModel(string authToken, string userId, string userName)
+public class LoginResponseModel(string authToken, string userId, string email)
 {
-  [JsonPropertyName("auth_token")]
+  [JsonPropertyName("authToken")]
   public string AuthToken { get; set; } = authToken;
 
-  [JsonPropertyName("user_id")]
+  [JsonPropertyName("userId")]
   public string UserId { get; set; } = userId;
 
-  [JsonPropertyName("user_name")]
-  public string UserName { get; set; } = userName;
+  [JsonPropertyName("email")]
+  public string Email { get; set; } = email;
 }

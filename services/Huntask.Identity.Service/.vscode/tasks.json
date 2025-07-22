@@ -2,14 +2,14 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "build-huntask-tasks-service",
+      "label": "build-huntask-identity-service",
       "type": "process",
       "command": "dotnet",
       "args": [
         "build",
 				"--configuration",
 				"Debug",
-        "${workspaceFolder}/Huntask.Tasks.Service.csproj"
+        "${workspaceFolder}/services/Huntask.Identity.Service/Huntask.Identity.Service.csproj"
       ],
       "problemMatcher": "$msCompile"
     }

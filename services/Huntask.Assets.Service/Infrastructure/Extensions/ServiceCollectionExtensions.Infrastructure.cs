@@ -4,7 +4,6 @@ using Huntask.Assets.Service.Domain.Services;
 using Huntask.Assets.Service.Infrastructure.Services;
 using Huntask.Assets.Service.Domain.Repositories;
 using Huntask.Assets.Service.Infrastructure.Repositories;
-using Huntask.Assets.Service.Infrastructure.Models.Options;
 
 namespace Huntask.Assets.Service.Infrastructure.Extensions;
 

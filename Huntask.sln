@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huntask.Tasks.Service", "se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huntask.Assets.Service", "services\Huntask.Assets.Service\Huntask.Assets.Service.csproj", "{A8060DA4-6C9C-4425-A68C-81C118C22204}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huntask.Common", "Huntask.Common\Huntask.Common.csproj", "{05F76A1D-335B-42DC-B01A-80783D067B0F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,18 @@ Global
 		{A8060DA4-6C9C-4425-A68C-81C118C22204}.Release|x64.Build.0 = Release|Any CPU
 		{A8060DA4-6C9C-4425-A68C-81C118C22204}.Release|x86.ActiveCfg = Release|Any CPU
 		{A8060DA4-6C9C-4425-A68C-81C118C22204}.Release|x86.Build.0 = Release|Any CPU
+		{05F76A1D-335B-42DC-B01A-80783D067B0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05F76A1D-335B-42DC-B01A-80783D067B0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05F76A1D-335B-42DC-B01A-80783D067B0F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{05F76A1D-335B-42DC-B01A-80783D067B0F}.Debug|x64.Build.0 = Debug|Any CPU
+		{05F76A1D-335B-42DC-B01A-80783D067B0F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{05F76A1D-335B-42DC-B01A-80783D067B0F}.Debug|x86.Build.0 = Debug|Any CPU
+		{05F76A1D-335B-42DC-B01A-80783D067B0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05F76A1D-335B-42DC-B01A-80783D067B0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05F76A1D-335B-42DC-B01A-80783D067B0F}.Release|x64.ActiveCfg = Release|Any CPU
+		{05F76A1D-335B-42DC-B01A-80783D067B0F}.Release|x64.Build.0 = Release|Any CPU
+		{05F76A1D-335B-42DC-B01A-80783D067B0F}.Release|x86.ActiveCfg = Release|Any CPU
+		{05F76A1D-335B-42DC-B01A-80783D067B0F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

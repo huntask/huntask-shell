@@ -1,15 +1,13 @@
-using Microsoft.AspNetCore.Mvc;
 using Huntask.Identity.Service.Application.Commands.LoginUser;
-using Huntask.Identity.Service.Application.Commands.RegisterUserCommand;
-using Huntask.Identity.Service.Application.Models;
-using Huntask.Identity.Service.Presentation.Models;
+using Huntask.Identity.Service.Application.Commands.RegisterUser;
+using Huntask.Common.Presentation.Controllers;
 
 namespace Huntask.Identity.Service.Presentation.Controllers;
 
 [ApiController]
 [ApiVersion("1.0")]
 [Route("api/v{version:apiVersion}/identity")]
-public class IdentityApiController(IMediator mediator) : ControllerBase
+public class IdentityApiController(IMediator mediator) : BaseApiController
 {
   private readonly IMediator mediator = mediator;
 
@@ -17,17 +15,13 @@ public class IdentityApiController(IMediator mediator) : ControllerBase
   public async Task<IActionResult> RegisterAsync(UserRegistrationModel model)
   {
     var result = await mediator.Send(new RegisterUserCommand(model));
-    return result.Success
-      ? StatusCode((int)result.StatusCode, new ApiResult<UserRegistrationModel>(result))
-      : StatusCode((int)result.StatusCode, new ApiResult<UserRegistrationModel>(result));
+    return FromResult(result);
   }
 
   [HttpPost("login")]
   public async Task<IActionResult> LoginAsync([FromBody] LoginModel model)
   {
     var result = await mediator.Send(new LoginUserCommand(model));
-    return result.Success
-      ? StatusCode((int)result.StatusCode, new ApiResult<LoginResponseModel>(result))
-      : StatusCode((int)result.StatusCode, new ApiResult<LoginResponseModel>(result));
+    return FromResult(result);
   }
 }

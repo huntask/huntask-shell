@@ -1,12 +1,13 @@
 using Huntask.Identity.Service.Infrastructure.Extensions;
 using Huntask.Identity.Service.Presentation.Extensions;
 using Huntask.Identity.Service.Presentation.Endpoints;
+using Huntask.Common.Presentation.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services
   .AddInfrastructureServices(builder.Configuration)
   .AddPresentationServices()
-  .AddDecorations();
+  .AddCommonDecorations();
 
 var app = builder
   .ConfigureBuilder()
@@ -14,7 +15,7 @@ var app = builder
 
 app
   .ConfigurePresentation()
-  .ConfigureDecorations()
+  .ConfigureCommonDecorations()
   .RegisterHealthcheckEndpoint();
 
 app.Run();

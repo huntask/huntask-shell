@@ -18,10 +18,18 @@ jobs:
       - name: Install NPM dependencies
         run: npm ci
 
+      # Use debug version of Dockerfile for now
+      # As it's still monorepo, should be uncommented
+      # when Huntask.Common will be published to NuGet
+      # - name: Run Docker Compose
+      #   run: |
+      #     npm run docker:build
+      #     npm run docker:run:detach
+
       - name: Run Docker Compose
         run: |
-          npm run docker:build
-          npm run docker:run:detach
+          npm run docker:build:debug
+          npm run docker:run:debug:detach
 
       - name: Verify if services are running
         run: docker compose ps
