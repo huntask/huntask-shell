@@ -18,6 +18,6 @@
 
     "docker:run:debug:db": "docker compose -f docker-compose.yml -f docker-compose.debug.yml --profile db up",
     "docker:run:debug": "docker compose -f docker-compose.yml -f docker-compose.debug.yml --profile db --profile be --profile fe up",
-    "docker:run:debug:detach": "docker compose -f docker-compose.yml -f docker-compose.debug.yml --profile db --profile be --profile fe -d"
+    "docker:run:debug:detach": "docker compose -f docker-compose.yml -f docker-compose.debug.yml --profile db --profile be --profile fe up -d"
   }
 }
