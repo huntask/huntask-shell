@@ -45,10 +45,4 @@
     <PackageReference Include="Huntask.Common" Version="*" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="package.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

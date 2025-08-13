@@ -1,4 +1,4 @@
-using Huntask.Assets.Service.Application.Models;
+using Huntask.Common.Application.Models;
 
 namespace Huntask.Assets.Service.Presentation.Models;
 

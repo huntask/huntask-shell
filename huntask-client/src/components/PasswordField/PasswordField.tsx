@@ -9,9 +9,10 @@ import { InputValidator } from '@/types';
 type PasswordFieldProps = {
   name?: string;
   label?: string;
-  value: string;
+  value?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   validators?: InputValidator[];
+  required?: boolean;
 };
 
 export function PasswordField({
@@ -20,6 +21,7 @@ export function PasswordField({
   value = '',
   onChange,
   validators,
+  required = true
 }: PasswordFieldProps) {
   const [showPassword, setShowPassword] = useState(false);
   const [error, helperText, handleChange] = useInputValidation(value, onChange, validators);
@@ -28,7 +30,11 @@ export function PasswordField({
 
   return (
     <FormControl fullWidth variant="outlined" margin="normal" error={error}>
-      <InputLabel htmlFor={name}>{label}</InputLabel>
+      <InputLabel
+        htmlFor={name}
+        {...(required ? { required: true } : {})}>
+        {label}
+      </InputLabel>
       <OutlinedInput
         fullWidth
         name={name}
@@ -42,6 +48,7 @@ export function PasswordField({
         label={label}
         value={value}
         onChange={handleChange}
+        {...(required ? { required: true } : {})}
       />
       {error && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>

@@ -2,6 +2,7 @@ namespace Huntask.Assets.Service.Presentation.Endpoints;
 
 public static class HealthcheckEndpoint
 {
+  // TODO[healthcheck]: replace with the one provided by microsoft.extensions.healthchecks
   public static WebApplication RegisterHealthcheckEndpoint(this WebApplication app)
   {
     app

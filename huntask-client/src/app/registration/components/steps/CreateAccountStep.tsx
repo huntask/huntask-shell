@@ -1,17 +1,29 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { TextInputField, PasswordField } from '@/components';
 import { validateEmail } from '@/components/TextInputField/validators';
 import { validatePassword } from '@/components/PasswordField/validators';
 import { useFormField } from '../../hooks/useFormField';
 import '../../styles.scss';
 
+type CreateAccountStepProps = {
+  setValidity?: (isValid: boolean) => void;
+};
 
-export function CreateAccountStep() {
+export function CreateAccountStep({ setValidity }: CreateAccountStepProps) {
   const [email, setEmail] = useFormField('email');
   const [password, setPassword] = useFormField('password');
   const [confirmPassword, setConfirmPassword] = useFormField('confirmPassword');
+
+  useEffect(() => {
+    const emailValidity: boolean = validateEmail(email ?? '')?.isValid;
+    const passwordValidity: boolean = validatePassword(password ?? '')?.isValid;
+    const confirmPasswordValidity: boolean = validatePassword(confirmPassword ?? '')?.isValid;
+    const isPasswordsMatch: boolean = password === confirmPassword;
+
+    setValidity?.(emailValidity && passwordValidity && confirmPasswordValidity && isPasswordsMatch);
+  }, [email, password, confirmPassword, setValidity]);
 
   const passwordValidators = [
     validatePassword,

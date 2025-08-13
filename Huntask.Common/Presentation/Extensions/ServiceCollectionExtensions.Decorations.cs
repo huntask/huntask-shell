@@ -21,7 +21,7 @@ public static class ServiceCollectionDecorationsExtensions
     services.AddDefaultCorrelationId(options =>
     {
       options.IncludeInResponse = true;
-      options.RequestHeader = Constants.CorrelationIdHeaderName;
+      options.RequestHeader = Constants.Headers.CorrelationId;
       options.UpdateTraceIdentifier = true;
     });
 

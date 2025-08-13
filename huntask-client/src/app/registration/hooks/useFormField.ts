@@ -1,18 +1,20 @@
 import { ChangeEvent, useContext } from 'react';
 import { RegistrationFormContext } from '../context/RegistrationFormContext';
-import { RegistrationFormState } from '../types';
+import { RegistrationFormData } from '../models';
 
-type FormField = [string, (e: ChangeEvent<HTMLInputElement>) => void];
-
-export function useFormField<K extends keyof RegistrationFormState>(name: K): FormField {
+export function useFormField<K extends keyof RegistrationFormData>(name: K): [RegistrationFormData[K], (e: ChangeEvent<HTMLInputElement>) => void] {
   const { formData, setFormData } = useContext(RegistrationFormContext);
 
-  const value = formData[name] || '';
+  const value = formData[name];
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.type === 'file'
+        ? e.target.files?.[0] ?? null
+        : e.target.value;
+
     setFormData((prev) => ({
       ...prev,
-      [name]: e.target.value,
+      [name]: newValue as RegistrationFormData[K],
     }));
   };
 

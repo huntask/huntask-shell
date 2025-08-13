@@ -1,6 +1,7 @@
 export function validatePassword(password: string) {
   const errors = [];
 
+  // TODO[validation]: use zod
   if (password.length < 6) {
     errors.push('Password must be at least 6 characters long.');
   }

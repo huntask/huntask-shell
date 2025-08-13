@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
-import React, { useCallback, useState } from 'react';
-import { Avatar, Button } from '@mui/material';
-import CloudUpload from '@mui/icons-material/CloudUpload';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Avatar } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { VisuallyHiddenInput } from './VisuallyHiddenInput';
+import { UploadButton } from './components/UploadButton';
 import './styles.scss';
 
 const avatarStyle = {
@@ -19,39 +17,49 @@ const iconStyle = {
 };
 
 export type UploadAvatarProps = {
-  avatar?: string | null;
-  onUpload: (file: File) => void;
+  avatar?: File | null;
+  onUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export function UploadAvatar({ avatar, onUpload }: UploadAvatarProps) {
+  const [preview, setPreview] = useState<string | null>(null);
+  const createPreview = useCallback((file?: File | null) => {
+    if (!file) {
+      return null;
+    }
+
+    const url = URL.createObjectURL(file);
+    setPreview((oldUrl: string | null) => {
+      if (oldUrl) {
+        URL.revokeObjectURL(oldUrl);
+      }
+
+      return url;
+    });
+  }, [setPreview]);
+
+  useEffect(() => {
+    createPreview(avatar);
+  }, [createPreview, avatar]);
+
   const fileChangeHandler = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
+      onUpload(event);
+
       const file = event.target.files?.[0];
       if (file) {
-        onUpload(file);
+        createPreview(file);
         return;
       }
 
       console.error('File upload error: No file selected');
-    },
-    [onUpload],
-  );
+    }, [createPreview, onUpload]);
 
   return (
     <div className="upload-avatar">
-      {avatar && <Avatar src={avatar} sx={avatarStyle}></Avatar>}
-      {!avatar && <AccountCircleIcon sx={iconStyle} />}
-      <Button
-        className="upload-avatar__button"
-        component="label"
-        variant="contained"
-        tabIndex={-1}
-        role={undefined}
-        startIcon={<CloudUpload />}
-      >
-        Upload Photo
-        <VisuallyHiddenInput type="file" onChange={fileChangeHandler} />
-      </Button>
+      {preview && <Avatar src={preview} sx={avatarStyle}></Avatar>}
+      {!preview && <AccountCircleIcon sx={iconStyle} />}
+      <UploadButton createPreview={createPreview} onUpload={onUpload} />
     </div>
   );
 }

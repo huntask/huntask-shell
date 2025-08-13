@@ -1,4 +1,3 @@
-
 namespace Huntask.Assets.Service.Application.Commands.UploadAsset;
 
 public record UploadAssetModel(
@@ -6,4 +5,4 @@ public record UploadAssetModel(
   string FileName,
   string ContentType,
   string ContainerName
-  );
+);

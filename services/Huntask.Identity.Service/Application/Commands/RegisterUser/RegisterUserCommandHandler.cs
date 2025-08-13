@@ -4,18 +4,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Huntask.Identity.Service.Application.Commands.RegisterUser;
 
-public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Result<UserRegistrationModel>>
+public class RegisterUserCommandHandler(UserManager<User> userManager) : IRequestHandler<RegisterUserCommand, Result<UserRegistrationModel>>
 {
   private const string BadRequestErrorMessage = "User creation has succeeded; User email: {Email}.";
-
-  private readonly UserManager<User> userManager;
-
-  public RegisterUserCommandHandler(UserManager<User> userManager)
-  {
-    ArgumentNullException.ThrowIfNull(userManager);
-
-    this.userManager  = userManager;
-  }
 
   public async Task<Result<UserRegistrationModel>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
   {

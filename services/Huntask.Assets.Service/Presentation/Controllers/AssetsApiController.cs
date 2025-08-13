@@ -1,11 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
-
 using Huntask.Assets.Service.Application.Commands.UploadAsset;
 using Huntask.Assets.Service.Application.Commands.DeleteAsset;
 using Huntask.Assets.Service.Presentation.Models;
 using Huntask.Assets.Service.Domain.Models;
 using Huntask.Assets.Service.Application.Queries.GetAsset;
 using Huntask.Assets.Service.Application.Queries.DownloadAsset;
+using Huntask.Common.Presentation.Controllers;
 
 namespace Huntask.Assets.Service.Presentation.Controllers;
 
@@ -14,8 +13,6 @@ namespace Huntask.Assets.Service.Presentation.Controllers;
 [Route("api/v{version:apiVersion}/asset")]
 public class AssetsApiController(IMediator mediator) : BaseApiController
 {
-  public const int MaxFileSize = 50 * 1024 * 1024;
-
   [HttpGet("{id}")]
   public async Task<IActionResult> GetAssetAsync([FromRoute] string id)
   {
@@ -54,8 +51,28 @@ public class AssetsApiController(IMediator mediator) : BaseApiController
     return File(stream, asset.ContentType, $"{asset.OriginalName}{asset.Extension}");
   }
 
+  [HttpGet("{id}/view")]
+  public async Task<IActionResult> ViewAssetAsync([FromRoute] string id)
+  {
+    var result = await mediator.Send(new DownloadAssetQuery(id));
+
+    var data = result.Data;
+    var asset = data?.Asset;
+    var stream = data?.Stream;
+
+    if (!result.Success || stream == null || asset == null)
+    {
+      return FromResult(result);
+    }
+
+    var fileFullName = $"{asset.OriginalName}{asset.Extension}";
+    Response.Headers.ContentDisposition = $"inline; filename=\"{fileFullName}\"";
+    return File(stream, asset.ContentType, fileFullName);
+  }
+
   [HttpPost]
-  [RequestSizeLimit(MaxFileSize)]
+  [Consumes("multipart/form-data")]
+  [RequestSizeLimit(Common.Constants.MaxFileSize)]
   public async Task<IActionResult> UploadAssetAsync([FromForm] UploadFileRequest request)
   {
     var model = new UploadAssetModel(
