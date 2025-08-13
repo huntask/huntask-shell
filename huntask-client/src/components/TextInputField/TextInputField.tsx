@@ -8,12 +8,13 @@ import { InputValidator } from '@/types';
 type TextFieldProps = {
   name: string;
   label: string;
-  value: string;
+  value?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   validators?: InputValidator[];
+  required?: boolean;
 };
 
-export function TextInputField({ name, label, value = '', onChange, validators }: TextFieldProps) {
+export function TextInputField({ name, label, value = '', onChange, validators, required = false }: TextFieldProps) {
   const [error, helperText, handleChange] = useInputValidation(value, onChange, validators);
 
   return (
@@ -25,6 +26,7 @@ export function TextInputField({ name, label, value = '', onChange, validators }
       margin="normal"
       value={value}
       onChange={handleChange}
+      {...(required ? { required } : {})}
       {...(error ? { error, helperText } : {})}
     />
   );

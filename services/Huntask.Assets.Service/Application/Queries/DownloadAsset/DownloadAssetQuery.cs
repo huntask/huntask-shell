@@ -1,6 +1,4 @@
-using System;
-using Huntask.Assets.Service.Application.Models;
-using Huntask.Assets.Service.Domain.Models;
+using Huntask.Common.Application.Models;
 
 namespace Huntask.Assets.Service.Application.Queries.DownloadAsset;
 

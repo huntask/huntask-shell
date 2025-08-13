@@ -1,25 +1,33 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client';
 
-import React, { useActionState } from 'react';
+import React, { useActionState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 import { TextInputField, PasswordField } from '@/components';
-import { loginAction } from '../actions';
+import { defaultLoginActionState, loginAction } from '../actions/loginAction';
 import './styles.scss';
 
 export default function LoginForm() {
-  const [username, setUsername] = React.useState('');
+  const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [state, formAction, isPending] = useActionState(loginAction, { error: null });
+  const [state, formAction, isPending] = useActionState(loginAction, defaultLoginActionState);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state.success) {
+      router.push('/');
+    }
+  }, [router, state]);
 
   return (
     <form className="login-form__form" action={formAction}>
       <TextInputField
         name="email"
         label="Email"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
       />
       <PasswordField value={password} onChange={(e) => setPassword(e.target.value)} />
 

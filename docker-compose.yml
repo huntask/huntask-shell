@@ -17,6 +17,7 @@ services:
       - Jwt__Audience
       - Jwt__Secret
       - Jwt__ValidityHours
+      - Cors__AllowOrigins
       - Serilog__MinimumLevel__EntityFrameworkCore
       - Serilog__MinimumLevel__Npgsql
       - Serilog__MinimumLevel__Huntask.Identity.Service
@@ -43,6 +44,7 @@ services:
       - Jwt__Audience
       - Jwt__Secret
       - Jwt__ValidityHours
+      - Cors__AllowOrigins
       - Serilog__MinimumLevel__EntityFrameworkCore
       - Serilog__MinimumLevel__Npgsql
       - Serilog__MinimumLevel__Huntask.Tasks.Service
@@ -72,6 +74,7 @@ services:
       - Jwt__Audience
       - Jwt__Secret
       - Jwt__ValidityHours
+      - Cors__AllowOrigins
       - Serilog__MinimumLevel__EntityFrameworkCore
       - Serilog__MinimumLevel__Npgsql
       - Serilog__MinimumLevel__Huntask.Assets.Service

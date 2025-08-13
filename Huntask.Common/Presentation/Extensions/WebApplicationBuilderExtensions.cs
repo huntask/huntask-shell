@@ -1,5 +1,8 @@
+using System.Text;
 using Huntask.Common.Infrastructure.Models.Options;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -39,28 +42,58 @@ public static class WebApplicationBuilderExtensions
   {
     builder.Services.AddCors(options =>
     {
-      if (builder.Environment.IsDevelopment())
-      {
-        options.AddPolicy(
-          "AllowDevelopment",
-          builder =>
-          {
-            builder
-              .SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-          }
-        );
-      }
+      var allowedOrigins = builder.Configuration?.GetSection("Cors")?.GetValue<string[]>("AllowOrigins") ?? [];
+
+      options.AddPolicy(
+        "AllowOrigins",
+        builder =>
+        {
+          builder
+            .WithOrigins(allowedOrigins)
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+        }
+      );
     });
 
     return builder;
   }
 
-  private static WebApplicationBuilder ConfigureAuth(this WebApplicationBuilder builder)
+  private static IServiceCollection ConfigureAuth(this WebApplicationBuilder builder)
   {
-    builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
+    var jwtOptionsConfig = builder.Configuration.GetSection("Jwt");
+    ArgumentNullException.ThrowIfNull(jwtOptionsConfig, "Jwt configuration section is missing.");
 
-    return builder;
+    var services = builder.Services;
+    services.Configure<JwtOptions>(jwtOptionsConfig);
+
+    var jwtOptions = jwtOptionsConfig?.Get<JwtOptions>() ?? new JwtOptions();
+    services
+      .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+      .AddJwtBearer(options =>
+      {
+        options.TokenValidationParameters = jwtOptions.GetTokenValidationParameters();
+        options.Events = GetJwtBearerEvents();
+      });
+    services.AddAuthorization();
+
+    return services;
+  }
+
+  private static JwtBearerEvents GetJwtBearerEvents()
+  {
+    return new JwtBearerEvents
+    {
+      OnMessageReceived = context =>
+      {
+        if (context.Request.Cookies.TryGetValue(Constants.Cookies.AuthToken, out var token))
+        {
+          context.Token = token;
+        }
+
+        return Task.CompletedTask;
+      }
+    };
   }
 }

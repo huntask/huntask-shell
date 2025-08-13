@@ -1,4 +1,5 @@
 import { InputValidator } from '@/types';
+import { useDebouncedCallback } from 'use-debounce';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 
 export function useInputValidation(
@@ -18,10 +19,10 @@ export function useInputValidation(
 
       onChange(e);
     },
-    [touched],
+    [touched, onChange],
   );
 
-  useEffect(() => {
+  const debouncedValidation = useDebouncedCallback(() => {
     if (!touched || !validators || validators.length === 0) {
       return;
     }
@@ -39,7 +40,15 @@ export function useInputValidation(
       setError(false);
       setHelperText('');
     }
-  }, [touched, value, validators]);
+  }, 300);
+
+  useEffect(() => {
+    debouncedValidation();
+
+    return () => {
+      debouncedValidation.cancel();
+    }
+  }, [touched, value, validators, debouncedValidation]);
 
   return [error, helperText, handleChange];
 }

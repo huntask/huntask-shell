@@ -6,27 +6,12 @@ using Huntask.Identity.Service.Domain.Models;
 
 namespace Huntask.Identity.Service.Application.Commands.LoginUser;
 
-public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<LoginResponseModel>>
+public class LoginUserCommandHandler(
+  UserManager<User> userManager,
+  SignInManager<User> signInManager,
+  ITokenService tokenService) : IRequestHandler<LoginUserCommand, Result<LoginResponseModel>>
 {
   private const string UnauthorizedErrorMessage = "Login or password is incorrect.";
-
-  private readonly UserManager<User> userManager;
-  private readonly SignInManager<User> signInManager;
-  private readonly ITokenService tokenService;
-
-  public LoginUserCommandHandler(
-    UserManager<User> userManager,
-    SignInManager<User> signInManager,
-    ITokenService tokenService)
-  {
-    ArgumentNullException.ThrowIfNull(userManager);
-    ArgumentNullException.ThrowIfNull(signInManager);
-    ArgumentNullException.ThrowIfNull(tokenService);
-
-    this.userManager = userManager;
-    this.signInManager = signInManager;
-    this.tokenService = tokenService;
-  }
 
   public async Task<Result<LoginResponseModel>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
   {
@@ -61,7 +46,7 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
     return new Result<LoginResponseModel>(
       true,
       HttpStatusCode.OK,
-      new LoginResponseModel(token, user.Id, user.Email ?? "")
+      new LoginResponseModel(token, user.Id)
     );
   }
 }

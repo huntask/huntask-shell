@@ -4,17 +4,9 @@ using Huntask.Assets.Service.Infrastructure.Contexts;
 
 namespace Huntask.Assets.Service.Infrastructure.Repositories;
 
-public class AssetRepository : IAssetRepository
+public class AssetRepository(AssetsContext db) : IAssetRepository
 {
   private const string AssetNotFoundException = "Asset not found";
-
-  private readonly AssetsContext db;
-
-  public AssetRepository(AssetsContext db)
-  {
-    ArgumentNullException.ThrowIfNull(db, nameof(db));
-    this.db = db;
-  }
 
   public async Task<Asset> CreateAsync(Asset asset)
   {

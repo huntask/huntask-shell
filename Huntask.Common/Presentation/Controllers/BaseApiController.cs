@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using Huntask.Common.Presentation.Models;
 using Huntask.Common.Application.Models;
 

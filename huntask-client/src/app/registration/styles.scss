@@ -21,6 +21,12 @@
       padding-top: 0.5rem;
       padding-bottom: 2rem;
     }
+
+    &__errors {
+      list-style: none;
+      padding: 0;
+      color: red;
+    }
   }
 
   &-actions {

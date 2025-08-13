@@ -5,18 +5,9 @@ using Microsoft.Extensions.Options;
 
 namespace Huntask.Assets.Service.Infrastructure.Services;
 
-public class FileSystemAssetService : IAssetService
+public class FileSystemAssetService(IOptionsSnapshot<AssetsOptions> assetsOptionsSnapshot) : IAssetService
 {
-  private const int BufferSize = 16384; // 16 KB
-
-  private readonly AssetsOptions options;
-
-  public FileSystemAssetService(IOptions<AssetsOptions> options)
-  {
-    ArgumentNullException.ThrowIfNull(options, nameof(options));
-
-    this.options = options.Value;
-  }
+  private readonly AssetsOptions options = assetsOptionsSnapshot.Value;
 
   public async Task UploadAsync(
     string fileName,
@@ -61,7 +52,7 @@ public class FileSystemAssetService : IAssetService
       FileMode.Open,
       FileAccess.Read,
       FileShare.Read,
-      BufferSize,
+      Common.Constants.MaxFileSize,
       useAsync: true
     );
   }
