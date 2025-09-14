@@ -8,7 +8,7 @@
       "pipeTransport": {
         "pipeProgram": "docker",
         "pipeArgs": ["exec", "-i", "huntask-shell-huntask-identity-service-1"],
-        "debuggerPath": "/vsdbg/debug-entry",
+        "debuggerPath": "/vsdbg/vsdbg",
         "pipeCwd": "${workspaceFolder}",
         "quoteArgs": false
       },

@@ -21,7 +21,7 @@ public static class WebApplicationBuilderExtensions
     {
       builder.WebHost.ConfigureKestrel(options =>
       {
-        options.ListenAnyIP(builder.Configuration.GetValue("HUNTASK_ASSETS_SERVICE_HTTP_PORT", 8082));
+        options.ListenAnyIP(builder.Configuration.GetValue("HuntaskPorts__AssetsServiceHttp", 8082));
       });
     }
 

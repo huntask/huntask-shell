@@ -9,15 +9,15 @@
   "scripts": {
     "prepare": "husky install",
     "caddy:trust": "choco install caddy --yes --force && powershell -Command \"Start-Process -NoNewWindow -FilePath 'caddy' -ArgumentList 'run --config Caddyfile'; Start-Sleep -Seconds 5; caddy trust; Stop-Process -Name caddy -Force\"",
-    "docker:build": "docker compose -f docker-compose.yml --profile db --profile be --profile fe build",
-    "docker:build:debug": "docker compose -f docker-compose.yml -f docker-compose.debug.yml --profile db --profile be --profile fe build --no-cache",
+    "docker:build": "docker compose -f docker-compose.yml --profile infra --profile be --profile fe build",
+    "docker:build:debug": "docker compose -f docker-compose.yml -f docker-compose.debug.yml --profile infra --profile be --profile fe build --no-cache",
 
-    "docker:run:db": "docker compose -f docker-compose.yml --profile db up",
-    "docker:run": "docker compose -f docker-compose.yml --profile db --profile be --profile fe up",
-    "docker:run:detach": "docker compose -f docker-compose.yml --profile db --profile be --profile fe up -d",
+    "docker:run:infra": "docker compose -f docker-compose.yml --profile infra up",
+    "docker:run": "docker compose -f docker-compose.yml --profile infra --profile be --profile fe up",
+    "docker:run:detach": "docker compose -f docker-compose.yml --profile infra --profile be --profile fe up -d",
 
-    "docker:run:debug:db": "docker compose -f docker-compose.yml -f docker-compose.debug.yml --profile db up",
-    "docker:run:debug": "docker compose -f docker-compose.yml -f docker-compose.debug.yml --profile db --profile be --profile fe up",
-    "docker:run:debug:detach": "docker compose -f docker-compose.yml -f docker-compose.debug.yml --profile db --profile be --profile fe up -d"
+    "docker:run:debug:infra": "docker compose -f docker-compose.yml -f docker-compose.debug.yml --profile infra up",
+    "docker:run:debug": "docker compose -f docker-compose.yml -f docker-compose.debug.yml --profile infra --profile be --profile fe up",
+    "docker:run:debug:detach": "docker compose -f docker-compose.yml -f docker-compose.debug.yml --profile infra --profile be --profile fe up -d"
   }
 }

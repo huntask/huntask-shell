@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Huntask.Tasks.Service.Migrations
 {
     [DbContext(typeof(TasksContext))]
-    [Migration("20250707122446_InitialTasksMigration")]
-    partial class InitialTasksMigration
+    [Migration("20250911150756_TasksInitialMigration")]
+    partial class TasksInitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,7 +20,7 @@ namespace Huntask.Tasks.Service.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("tasks")
-                .HasAnnotation("ProductVersion", "9.0.4")
+                .HasAnnotation("ProductVersion", "9.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);

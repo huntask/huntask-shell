@@ -12,7 +12,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT
       - ConnectionStrings__HuntaskDbConnection
-      - HUNTASK_IDENTITY_SERVICE_HTTP_PORT
+      - HuntaskPorts__IdentityServiceHttp
       - Jwt__Issuer
       - Jwt__Audience
       - Jwt__Secret
@@ -21,10 +21,21 @@ services:
       - Serilog__MinimumLevel__EntityFrameworkCore
       - Serilog__MinimumLevel__Npgsql
       - Serilog__MinimumLevel__Huntask.Identity.Service
+      - FileSizes__MaxAssetFileSize
+      - FileSizes__MessageDataThresholdSize
+      - FileSizes__MaxAvatarFileSize
+      - RabbitMQ__Host
+      - RabbitMQ__User
+      - RabbitMQ__Password
+      - MassTransit__TempDataDirectory
     depends_on:
-      - huntask-db
+      huntask-db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     volumes:
       - ./logs/Huntask.Identity.Service:/app/logs
+      - ./temp/ms-message-data:/app/ms-message-data
     networks:
       - backend
 
@@ -39,7 +50,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT
       - ConnectionStrings__HuntaskDbConnection
-      - HUNTASK_TASKS_SERVICE_HTTP_PORT
+      - HuntaskPorts__TasksServiceHttp
       - Jwt__Issuer
       - Jwt__Audience
       - Jwt__Secret
@@ -48,9 +59,14 @@ services:
       - Serilog__MinimumLevel__EntityFrameworkCore
       - Serilog__MinimumLevel__Npgsql
       - Serilog__MinimumLevel__Huntask.Tasks.Service
+      - FileSizes__MaxAssetFileSize
+      - FileSizes__MessageDataThresholdSize
+      - FileSizes__MaxAvatarFileSize
     depends_on:
-      - huntask-db
-      - huntask-identity-service
+      huntask-db:
+        condition: service_healthy
+      huntask-identity-service:
+        condition: service_started
     volumes:
       - ./logs/Huntask.Tasks.Service:/app/logs
     networks:
@@ -66,7 +82,7 @@ services:
       - be
     environment:
       - ASPNETCORE_ENVIRONMENT
-      - HUNTASK_ASSETS_SERVICE_HTTP_PORT
+      - HuntaskPorts__AssetsServiceHttp
       - ConnectionStrings__HuntaskDbConnection
       - Assets__Folder
       - Assets__DefaultContainer
@@ -78,11 +94,24 @@ services:
       - Serilog__MinimumLevel__EntityFrameworkCore
       - Serilog__MinimumLevel__Npgsql
       - Serilog__MinimumLevel__Huntask.Assets.Service
+      - FileSizes__MaxAssetFileSize
+      - FileSizes__MessageDataThresholdSize
+      - FileSizes__MaxAvatarFileSize
+      - RabbitMQ__Host
+      - RabbitMQ__User
+      - RabbitMQ__Password
+      - MassTransit__TempDataDirectory
     depends_on:
-      - huntask-db
+      huntask-db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      huntask-identity-service:
+        condition: service_started
     volumes:
       - ./logs/Huntask.Assets.Service:/app/logs
       - ./assets:/app/assets
+      - ./temp/ms-message-data:/app/ms-message-data
     networks:
       - backend
 
@@ -114,21 +143,49 @@ services:
     networks:
       - backend
 
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RabbitMQ__User}
+      RABBITMQ_DEFAULT_PASS: ${RabbitMQ__Password}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    profiles:
+      - infra
+    depends_on:
+      huntask-db:
+        condition: service_healthy
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 40s
+
   huntask-db:
     image: postgres:16
     restart: always
     environment:
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - POSTGRES_DB
+      POSTGRES_USER: ${Postgres__User}
+      POSTGRES_PASSWORD: ${Postgres__Password}
+      POSTGRES_DB: ${Postgres__Db}
     profiles:
-      - db
+      - infra
     ports:
       - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - pg_data:/var/lib/postgresql/data
     networks:
       - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -q -d \"$$POSTGRES_DB\" -U \"$$POSTGRES_USER\" || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 40s
 
   pgadmin:
     image: dpage/pgadmin4
@@ -136,17 +193,18 @@ services:
     ports:
       - "5050:80"
     profiles:
-      - db
+      - infra
     environment:
-      - PGADMIN_DEFAULT_EMAIL
-      - PGADMIN_DEFAULT_PASSWORD
+      PGADMIN_DEFAULT_EMAIL: ${PgAdmin__DefaultEmail}
+      PGADMIN_DEFAULT_PASSWORD: ${PgAdmin__DefaultPassword}
     depends_on:
-      - huntask-db
+      huntask-db:
+        condition: service_healthy
     networks:
       - backend
 
 volumes:
-  pgdata:
+  pg_data:
   caddy_data:
   caddy_config:
 

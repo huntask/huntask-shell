@@ -18,9 +18,9 @@ public class IdentityApiController(IMediator mediator, IOptionsSnapshot<JwtOptio
 
   [HttpPost("register")]
   [Consumes("multipart/form-data")]
-  [RequestSizeLimit(Common.Constants.MaxFileSize)]
   public async Task<IActionResult> RegisterAsync([FromForm] UserRegistrationModel model)
   {
+    // TODO[identity]: Implement model validation with FluentValidation
     var result = await mediator.Send(new RegisterUserCommand(model));
     return FromResult(result);
   }
@@ -28,6 +28,7 @@ public class IdentityApiController(IMediator mediator, IOptionsSnapshot<JwtOptio
   [HttpPost("login")]
   public async Task<IActionResult> LoginAsync([FromBody] LoginModel model)
   {
+    // TODO[identity]: Implement model validation with FluentValidation
     var result = await mediator.Send(new LoginUserCommand(model));
     var token = result.Data?.AuthToken;
 
@@ -55,6 +56,7 @@ public class IdentityApiController(IMediator mediator, IOptionsSnapshot<JwtOptio
     return Ok();
   }
 
+  // TODO[identity]: Move to a dedicated service or middleware
   private void SetAuthTokenCookie(string token)
   {
     Response.Cookies.Append(Constants.Cookies.AuthToken, token, new CookieOptions
@@ -66,6 +68,7 @@ public class IdentityApiController(IMediator mediator, IOptionsSnapshot<JwtOptio
     });
   }
 
+  // TODO[identity]: Move to a dedicated service or middleware
   private void RemoveAuthTokenCookie()
   {
     Response.Cookies.Delete(Constants.Cookies.AuthToken);

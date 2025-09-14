@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Huntask.Tasks.Service.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialTasksMigration : Migration
+    public partial class TasksInitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

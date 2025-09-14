@@ -8,12 +8,13 @@
       "pipeTransport": {
         "pipeProgram": "docker",
         "pipeArgs": ["exec", "-i", "huntask-shell-huntask-identity-service-1"],
-        "debuggerPath": "/vsdbg/debug-entry",
+        "debuggerPath": "/vsdbg/vsdbg",
         "pipeCwd": "${workspaceFolder}/services/Huntask.Identity.Service",
         "quoteArgs": false
       },
       "sourceFileMap": {
-        "/app": "${workspaceFolder}/services/Huntask.Identity.Service"
+        "/app": "${workspaceFolder}/services/Huntask.Identity.Service",
+        "/Huntask.Common": "${workspaceFolder}/Huntask.Common"
       },
       "justMyCode": true
     },
@@ -25,7 +26,7 @@
       "pipeTransport": {
         "pipeProgram": "docker",
         "pipeArgs": ["exec", "-i", "huntask-shell-huntask-tasks-service-1"],
-        "debuggerPath": "/vsdbg/debug-entry",
+        "debuggerPath": "/vsdbg/vsdbg",
         "pipeCwd": "${workspaceFolder}/services/Huntask.Tasks.Service",
         "quoteArgs": false
       },
@@ -42,12 +43,13 @@
       "pipeTransport": {
         "pipeProgram": "docker",
         "pipeArgs": ["exec", "-i", "huntask-shell-huntask-assets-service-1"],
-        "debuggerPath": "/vsdbg/debug-entry",
+        "debuggerPath": "/vsdbg/vsdbg",
         "pipeCwd": "${workspaceFolder}",
         "quoteArgs": false
       },
       "sourceFileMap": {
-        "/app": "${workspaceFolder}"
+        "/app": "${workspaceFolder}/services/Huntask.Assets.Service",
+        "/Huntask.Common": "${workspaceFolder}/Huntask.Common"
       }
     },
     {

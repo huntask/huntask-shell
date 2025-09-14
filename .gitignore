@@ -49,7 +49,8 @@ TestResult.xml
 nunit-*.xml
 
 .vs
-logs/*
+logs
+temp
 
 node_modules
 

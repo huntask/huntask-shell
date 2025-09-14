@@ -39,7 +39,7 @@ public static class WebApplicationBuilderExtensions
     {
       builder.WebHost.ConfigureKestrel(options =>
       {
-        options.ListenAnyIP(builder.Configuration.GetValue<int>("HUNTASK_TASKS_SERVICE_HTTP_PORT", 8080));
+        options.ListenAnyIP(builder.Configuration.GetValue<int>("HuntaskPorts__TasksServiceHttp", 8080));
       });
     }
 

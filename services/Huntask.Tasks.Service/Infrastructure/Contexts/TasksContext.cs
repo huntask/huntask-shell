@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Huntask.Identity.Service.Domain.Entities;
+using Huntask.Tasks.Service.Infrastructure;
 
 namespace Huntask.Identity.Service.Infrastructure.Contexts;
 
@@ -11,7 +12,7 @@ public class TasksContext : DbContext
 
   protected override void OnModelCreating(ModelBuilder builder)
   {
-    builder.HasDefaultSchema("tasks");
+    builder.HasDefaultSchema(Constants.DbSchemaName);
 
     builder
       .Entity<User>()

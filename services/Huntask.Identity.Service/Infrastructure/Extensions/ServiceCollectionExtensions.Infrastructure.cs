@@ -1,25 +1,46 @@
 using Microsoft.EntityFrameworkCore;
 using Huntask.Identity.Service.Infrastructure.Services;
 using Huntask.Identity.Service.Infrastructure.Contexts;
+using Huntask.Common.Infrastructure.Models.Options;
+using Microsoft.Extensions.Options;
+using Huntask.Common.Infrastructure.Extensions;
+using MassTransit;
+using Huntask.Identity.Service.Infrastructure.Consumers;
 
 namespace Huntask.Identity.Service.Infrastructure.Extensions;
 
 public static class ServiceCollectionInfrastructureExtensions
 {
-  public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+  public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
   {
     services
-      .AddDatabase(configuration)
+      .AddDatabase()
+      .AddMessageBroker<IdentityContext>(opts =>
+      {
+        opts.AddConsumer<AvatarUploadedEventConsumer>();
+      })
       .AddServices();
 
     return services;
   }
 
-  private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
+  private static IServiceCollection AddDatabase(this IServiceCollection services)
   {
-    var connectionString = configuration.GetConnectionString("HuntaskDbConnection");
+    var dbConnectionString = services
+      .BuildServiceProvider()
+      .GetRequiredService<IOptionsSnapshot<ConnectionStringsOptions>>()
+      .Value
+      .HuntaskDbConnection;
 
-    services.AddDbContext<IdentityContext>(opt => opt.UseNpgsql(connectionString));
+    services.AddDbContext<IdentityContext>(opt =>
+    {
+      opt.UseNpgsql(dbConnectionString, npg =>
+      {
+        npg.EnableRetryOnFailure(5, TimeSpan.FromSeconds(5), null);
+        npg.MigrationsAssembly(typeof(IdentityContext).Assembly.FullName);
+        npg.MigrationsHistoryTable("__EFMigrationsHistory", Constants.DbSchemaName);
+      });
+    });
     services.AddDatabaseDeveloperPageExceptionFilter();
 
     return services;
