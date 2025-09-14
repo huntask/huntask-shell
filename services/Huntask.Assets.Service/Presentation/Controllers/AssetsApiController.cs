@@ -72,7 +72,6 @@ public class AssetsApiController(IMediator mediator) : BaseApiController
 
   [HttpPost]
   [Consumes("multipart/form-data")]
-  [RequestSizeLimit(Common.Constants.MaxFileSize)]
   public async Task<IActionResult> UploadAssetAsync([FromForm] UploadFileRequest request)
   {
     var model = new UploadAssetModel(

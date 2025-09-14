@@ -1,32 +1,53 @@
 
+using Huntask.Assets.Service.Application.Commands.UploadAsset;
+using Huntask.Assets.Service.Domain.Models;
+using Huntask.Assets.Service.Domain.Repositories;
 using Huntask.Assets.Service.Domain.Services;
 using Huntask.Assets.Service.Infrastructure.Models.Options;
+using Huntask.Common.Infrastructure.Models.Options;
 using Microsoft.Extensions.Options;
 
 namespace Huntask.Assets.Service.Infrastructure.Services;
 
-public class FileSystemAssetService(IOptionsSnapshot<AssetsOptions> assetsOptionsSnapshot) : IAssetService
+public class FileSystemAssetService(
+  IOptionsSnapshot<AssetsOptions> assetsOptionsSnapshot,
+  IOptionsSnapshot<FileSizesOptions> fileSizesOptionsSnapshot,
+  IAssetRepository assetRepository) : IAssetService
 {
-  private readonly AssetsOptions options = assetsOptionsSnapshot.Value;
+  private readonly AssetsOptions assetsOptions = assetsOptionsSnapshot.Value;
+  private readonly FileSizesOptions fileSizesOptions = fileSizesOptionsSnapshot.Value;
 
-  public async Task UploadAsync(
-    string fileName,
-    string extension,
-    Stream stream,
-    string containerName)
+  public async Task<Asset> UploadAsync(UploadAssetModel model)
   {
-    ArgumentException.ThrowIfNullOrEmpty(fileName, nameof(fileName));
-    ArgumentException.ThrowIfNullOrEmpty(extension, nameof(extension));
+    ArgumentNullException.ThrowIfNull(model, nameof(model));
 
-    var containerPath = Path.Combine(options.Folder, containerName ?? options.DefaultContainer);
+    var createdAt = DateTime.UtcNow;
+    var id = Guid.NewGuid().ToString();
+    var asset = new Asset
+    {
+      Id = id,
+      ContainerName = model.ContainerName,
+      OriginalName = Path.GetFileNameWithoutExtension(model.FileName),
+      InternalName = id,
+      Extension = Path.GetExtension(model.FileName),
+      ContentType = model.ContentType,
+      Size = model.FileStream.Length,
+      CreatedAt = createdAt,
+      UpdatedAt = createdAt
+    };
+    await assetRepository.CreateAsync(asset);
+
+    var containerPath = Path.Combine(assetsOptions.Folder, model.ContainerName ?? assetsOptions.DefaultContainer);
     if (!Directory.Exists(containerPath))
     {
       Directory.CreateDirectory(containerPath);
     }
 
-    var filePath = Path.Combine(containerPath, $"{fileName}{extension}");
+    var filePath = Path.Combine(containerPath, $"{asset.InternalName}{asset.Extension}");
     await using var file = new FileStream(filePath, FileMode.Create, FileAccess.Write);
-    await stream.CopyToAsync(file);
+    await model.FileStream.CopyToAsync(file);
+
+    return asset;
   }
 
   public FileStream Download(string fileName, string extension, string containerName)
@@ -38,8 +59,8 @@ public class FileSystemAssetService(IOptionsSnapshot<AssetsOptions> assetsOption
     ThrowIfExtensionForbidden(extension);
 
     var filePath = Path.Combine(
-      options.Folder,
-      containerName ?? options.DefaultContainer,
+      assetsOptions.Folder,
+      containerName ?? assetsOptions.DefaultContainer,
       $"{fileName}{extension}"
     );
 
@@ -52,7 +73,7 @@ public class FileSystemAssetService(IOptionsSnapshot<AssetsOptions> assetsOption
       FileMode.Open,
       FileAccess.Read,
       FileShare.Read,
-      Common.Constants.MaxFileSize,
+      fileSizesOptions.MaxAssetFileSize,
       useAsync: true
     );
   }
@@ -66,8 +87,8 @@ public class FileSystemAssetService(IOptionsSnapshot<AssetsOptions> assetsOption
     ThrowIfExtensionForbidden(extension);
 
     var filePath = Path.Combine(
-      options.Folder,
-      containerName ?? options.DefaultContainer,
+      assetsOptions.Folder,
+      containerName ?? assetsOptions.DefaultContainer,
       $"{fileName}{extension}"
     );
 

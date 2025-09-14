@@ -32,7 +32,7 @@ public static class WebApplicationBuilderExtensions
     {
       builder.WebHost.ConfigureKestrel(options =>
       {
-        options.ListenAnyIP(builder.Configuration.GetValue("HUNTASK_IDENTITY_SERVICE_HTTP_PORT", 8081));
+        options.ListenAnyIP(builder.Configuration.GetValue("HuntaskPorts__IdentityServiceHttp", 8081));
       });
     }
 

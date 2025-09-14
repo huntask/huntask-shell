@@ -1,3 +1,4 @@
+using Huntask.Common.Infrastructure.Extensions;
 using Huntask.Identity.Service.Domain.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,9 @@ public class IdentityContext(DbContextOptions<IdentityContext> options) : Identi
 {
   protected override void OnModelCreating(ModelBuilder builder)
   {
-    builder.HasDefaultSchema("identity");
+    builder.HasDefaultSchema(Constants.DbSchemaName);
+    builder.ConfigureMSConsumerOutbox(Constants.DbSchemaName);
+
     base.OnModelCreating(builder);
   }
 }

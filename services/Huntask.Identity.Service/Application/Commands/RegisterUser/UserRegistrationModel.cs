@@ -21,10 +21,6 @@ public class UserRegistrationModel
   [JsonPropertyName("lastName")]
   public string? LastName { get; set; }
 
-  [FromForm(Name = "avatarAssetId")]
-  [JsonPropertyName("avatarAssetId")]
-  public string? AvatarAssetId { get; set; }
-
   [FromForm(Name = "avatar")]
   [JsonPropertyName("avatar")]
   public IFormFile? Avatar { get; set; }
