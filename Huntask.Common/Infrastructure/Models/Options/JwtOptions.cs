@@ -1,4 +1,3 @@
-
 namespace Huntask.Common.Infrastructure.Models.Options;
 
 public class JwtOptions
