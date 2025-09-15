@@ -2,26 +2,14 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "build-huntask-tasks-service",
-      "type": "process",
-      "command": "dotnet",
-      "args": [
-        "build",
-				"--configuration",
-				"Debug",
-        "${workspaceFolder}/services/Huntask.Tasks.Service/Huntask.Tasks.Service.csproj"
-      ],
-      "problemMatcher": "$msCompile"
-    },
-    {
       "label": "build-huntask-identity-service-standalone",
       "type": "process",
       "command": "dotnet",
       "args": [
         "build",
-				"--configuration",
-				"Debug",
-        "${workspaceFolder}/services/Huntask.Identity.Service/Huntask.Identity.Service.csproj"
+        "--configuration",
+        "Debug",
+        "${workspaceFolder}/services/Huntask.Identity.Service/src/Huntask.Identity.Service.Presentation/Huntask.Identity.Service.Presentation.csproj"
       ],
       "problemMatcher": "$msCompile"
     },
@@ -31,9 +19,9 @@
       "command": "dotnet",
       "args": [
         "build",
-				"--configuration",
-				"Debug",
-        "${workspaceFolder}/services/Huntask.Assets.Service/Huntask.Assets.Service.csproj"
+        "--configuration",
+        "Debug",
+        "${workspaceFolder}/services/Huntask.Assets.Service/src/Huntask.Assets.Service.Presentation/Huntask.Assets.Service.Presentation.csproj"
       ],
       "problemMatcher": "$msCompile"
     },
@@ -43,9 +31,9 @@
       "command": "dotnet",
       "args": [
         "build",
-				"--configuration",
-				"Debug",
-        "${workspaceFolder}/Huntask.Common/Huntask.Common.csproj"
+        "--configuration",
+        "Debug",
+        "${workspaceFolder}/packages/Huntask.Common/Huntask.Common.csproj"
       ],
       "problemMatcher": "$msCompile"
     },

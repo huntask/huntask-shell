@@ -9,7 +9,7 @@
         "build",
 				"--configuration",
 				"Debug",
-        "${workspaceFolder}/Huntask.Assets.Service.csproj"
+        "${workspaceFolder}/src/Huntask.Assets.Service.Presentation/Huntask.Assets.Service.Presentation.csproj"
       ],
       "problemMatcher": "$msCompile"
     }

@@ -1,11 +1,15 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /app
 
-COPY Huntask.Common/. ../Huntask.Common/
-RUN dotnet restore ../Huntask.Common/Huntask.Common.csproj --configfile ../Huntask.Common/nuget.local.config
+COPY packages/Huntask.Common/ ./packages/Huntask.Common/
+COPY services/Huntask.Identity.Service/Huntask.Identity.Service.sln .
+COPY services/Huntask.Identity.Service/src/Huntask.Identity.Service/*.csproj ./src/Huntask.Identity.Service/
+COPY services/Huntask.Identity.Service/src/Huntask.Identity.Service.Presentation/*.csproj ./src/Huntask.Identity.Service.Presentation/
+RUN dotnet restore Huntask.Identity.Service.sln -p:DockerBuild=true
 
-COPY services/Huntask.Identity.Service/. .
-RUN dotnet publish Huntask.Identity.Service.csproj -c Debug -o out
+COPY services/Huntask.Identity.Service/src/Huntask.Identity.Service/ ./src/Huntask.Identity.Service/
+COPY services/Huntask.Identity.Service/src/Huntask.Identity.Service.Presentation/ ./src/Huntask.Identity.Service.Presentation/
+RUN dotnet publish src/Huntask.Identity.Service.Presentation/Huntask.Identity.Service.Presentation.csproj -c Debug -o out -p:DockerBuild=true
 
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 WORKDIR /app
@@ -19,4 +23,4 @@ RUN apt-get update \
 EXPOSE 8080
 EXPOSE 5005
 
-ENTRYPOINT ["dotnet", "Huntask.Identity.Service.dll"]
+ENTRYPOINT ["dotnet", "Huntask.Identity.Service.Presentation.dll"]

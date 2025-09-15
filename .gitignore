@@ -51,15 +51,9 @@ nunit-*.xml
 .vs
 logs
 temp
-
 node_modules
-
-# Contains launch.json for the services debug
-!.vscode/
-# Contains the bash script that runs vsdbg (debugger)
-# as it can't launch it correctly with pipeline arg
-!.vsdbg
-
 nupkgs/
 certs/
 assets/
+
+!.vscode/

@@ -3,38 +3,67 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huntask.Identity.Service", "services\Huntask.Identity.Service\Huntask.Identity.Service.csproj", "{40710719-10E1-4759-B13C-03EF935A1A66}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huntask.Identity.Service", "services\Huntask.Identity.Service\src\Huntask.Identity.Service\Huntask.Identity.Service.csproj", "{40710719-10E1-4759-B13C-03EF935A1A66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huntask.Tasks.Service", "services\Huntask.Tasks.Service\Huntask.Tasks.Service.csproj", "{E5A7567A-BC8E-4035-AE22-75BDC8E9FF0A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huntask.Assets.Service", "services\Huntask.Assets.Service\src\Huntask.Assets.Service\Huntask.Assets.Service.csproj", "{A8060DA4-6C9C-4425-A68C-81C118C22204}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huntask.Assets.Service", "services\Huntask.Assets.Service\Huntask.Assets.Service.csproj", "{A8060DA4-6C9C-4425-A68C-81C118C22204}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huntask.Common", "packages\Huntask.Common\Huntask.Common.csproj", "{05F76A1D-335B-42DC-B01A-80783D067B0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huntask.Common", "Huntask.Common\Huntask.Common.csproj", "{05F76A1D-335B-42DC-B01A-80783D067B0F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Huntask.Assets.Service", "Huntask.Assets.Service", "{3E60B812-43A0-4B46-A261-D011D1A718CA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9B875E88-9413-4AB8-9AA8-10F6F5D09CB6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Huntask.Identity.Service", "Huntask.Identity.Service", "{34462DD9-9127-4856-AAA0-FCCD9688B738}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3C4A4FE6-EAF6-4B87-ADFB-AF221A380F42}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "packages", "packages", "{C05AD9EF-D164-4034-A4DF-489AE058197F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huntask.Assets.Service.Presentation", "services\Huntask.Assets.Service\src\Huntask.Assets.Service.Presentation\Huntask.Assets.Service.Presentation.csproj", "{B86F02B1-848D-84BF-DF28-8990FE213361}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Huntask.Identity.Service.Presentation", "services\Huntask.Identity.Service\src\Huntask.Identity.Service.Presentation\Huntask.Identity.Service.Presentation.csproj", "{7329CA15-CE20-DBA7-696D-6A73A8327F71}"
 EndProject
 Global
-  GlobalSection(SolutionConfigurationPlatforms) = preSolution
-    Debug|Any CPU = Debug|Any CPU
-    Release|Any CPU = Release|Any CPU
-  EndGlobalSection
-  GlobalSection(ProjectConfigurationPlatforms) = postSolution
-    {40710719-10E1-4759-B13C-03EF935A1A66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-    {40710719-10E1-4759-B13C-03EF935A1A66}.Debug|Any CPU.Build.0 = Debug|Any CPU
-    {40710719-10E1-4759-B13C-03EF935A1A66}.Release|Any CPU.ActiveCfg = Release|Any CPU
-    {40710719-10E1-4759-B13C-03EF935A1A66}.Release|Any CPU.Build.0 = Release|Any CPU
-    {E5A7567A-BC8E-4035-AE22-75BDC8E9FF0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-    {E5A7567A-BC8E-4035-AE22-75BDC8E9FF0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-    {E5A7567A-BC8E-4035-AE22-75BDC8E9FF0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-    {E5A7567A-BC8E-4035-AE22-75BDC8E9FF0A}.Release|Any CPU.Build.0 = Release|Any CPU
-    {A8060DA4-6C9C-4425-A68C-81C118C22204}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-    {A8060DA4-6C9C-4425-A68C-81C118C22204}.Debug|Any CPU.Build.0 = Debug|Any CPU
-    {A8060DA4-6C9C-4425-A68C-81C118C22204}.Release|Any CPU.ActiveCfg = Release|Any CPU
-    {A8060DA4-6C9C-4425-A68C-81C118C22204}.Release|Any CPU.Build.0 = Release|Any CPU
-    {05F76A1D-335B-42DC-B01A-80783D067B0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-    {05F76A1D-335B-42DC-B01A-80783D067B0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-    {05F76A1D-335B-42DC-B01A-80783D067B0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-    {05F76A1D-335B-42DC-B01A-80783D067B0F}.Release|Any CPU.Build.0 = Release|Any CPU
-  EndGlobalSection
-  GlobalSection(SolutionProperties) = preSolution
-    HideSolutionNode = FALSE
-  EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{40710719-10E1-4759-B13C-03EF935A1A66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40710719-10E1-4759-B13C-03EF935A1A66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40710719-10E1-4759-B13C-03EF935A1A66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40710719-10E1-4759-B13C-03EF935A1A66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8060DA4-6C9C-4425-A68C-81C118C22204}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8060DA4-6C9C-4425-A68C-81C118C22204}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8060DA4-6C9C-4425-A68C-81C118C22204}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8060DA4-6C9C-4425-A68C-81C118C22204}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05F76A1D-335B-42DC-B01A-80783D067B0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05F76A1D-335B-42DC-B01A-80783D067B0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05F76A1D-335B-42DC-B01A-80783D067B0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05F76A1D-335B-42DC-B01A-80783D067B0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B86F02B1-848D-84BF-DF28-8990FE213361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B86F02B1-848D-84BF-DF28-8990FE213361}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B86F02B1-848D-84BF-DF28-8990FE213361}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B86F02B1-848D-84BF-DF28-8990FE213361}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7329CA15-CE20-DBA7-696D-6A73A8327F71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7329CA15-CE20-DBA7-696D-6A73A8327F71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7329CA15-CE20-DBA7-696D-6A73A8327F71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7329CA15-CE20-DBA7-696D-6A73A8327F71}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{40710719-10E1-4759-B13C-03EF935A1A66} = {3C4A4FE6-EAF6-4B87-ADFB-AF221A380F42}
+		{A8060DA4-6C9C-4425-A68C-81C118C22204} = {9B875E88-9413-4AB8-9AA8-10F6F5D09CB6}
+		{05F76A1D-335B-42DC-B01A-80783D067B0F} = {C05AD9EF-D164-4034-A4DF-489AE058197F}
+		{3E60B812-43A0-4B46-A261-D011D1A718CA} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{9B875E88-9413-4AB8-9AA8-10F6F5D09CB6} = {3E60B812-43A0-4B46-A261-D011D1A718CA}
+		{34462DD9-9127-4856-AAA0-FCCD9688B738} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{3C4A4FE6-EAF6-4B87-ADFB-AF221A380F42} = {34462DD9-9127-4856-AAA0-FCCD9688B738}
+		{B86F02B1-848D-84BF-DF28-8990FE213361} = {9B875E88-9413-4AB8-9AA8-10F6F5D09CB6}
+		{7329CA15-CE20-DBA7-696D-6A73A8327F71} = {3C4A4FE6-EAF6-4B87-ADFB-AF221A380F42}
+	EndGlobalSection
 EndGlobal
