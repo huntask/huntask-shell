@@ -1,11 +1,15 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /app
 
-COPY Huntask.Common/. ../Huntask.Common/
-RUN dotnet restore ../Huntask.Common/Huntask.Common.csproj --configfile ../Huntask.Common/nuget.local.config
+COPY packages/Huntask.Common/ ./packages/Huntask.Common/
+COPY services/Huntask.Assets.Service/Huntask.Assets.Service.sln .
+COPY services/Huntask.Assets.Service/src/Huntask.Assets.Service/*.csproj ./src/Huntask.Assets.Service/
+COPY services/Huntask.Assets.Service/src/Huntask.Assets.Service.Presentation/*.csproj ./src/Huntask.Assets.Service.Presentation/
+RUN dotnet restore Huntask.Assets.Service.sln -p:DockerBuild=true
 
-COPY services/Huntask.Assets.Service/. .
-RUN dotnet publish Huntask.Assets.Service.csproj -c Debug -o out
+COPY services/Huntask.Assets.Service/src/Huntask.Assets.Service/ ./src/Huntask.Assets.Service/
+COPY services/Huntask.Assets.Service/src/Huntask.Assets.Service.Presentation/ ./src/Huntask.Assets.Service.Presentation/
+RUN dotnet publish src/Huntask.Assets.Service.Presentation/Huntask.Assets.Service.Presentation.csproj -c Debug -o out -p:DockerBuild=true
 
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS runtime
 WORKDIR /app
@@ -19,4 +23,4 @@ RUN apt-get update \
 EXPOSE 8080
 EXPOSE 5005
 
-ENTRYPOINT ["dotnet", "Huntask.Assets.Service.dll"]
+ENTRYPOINT ["dotnet", "Huntask.Assets.Service.Presentation.dll"]

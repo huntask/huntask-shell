@@ -13,7 +13,9 @@
         "quoteArgs": false
       },
       "sourceFileMap": {
-        "/app": "${workspaceFolder}"
+        "/app/src/Huntask.Identity.Service": "${workspaceFolder}/src/Huntask.Identity.Service",
+        "/app/src/Huntask.Identity.Service.Presentation": "${workspaceFolder}/src/Huntask.Identity.Service.Presentation",
+        "/app/packages/Huntask.Common": "${workspaceFolder}/../../packages/Huntask.Common"
       }
     },
     {
@@ -21,9 +23,9 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build-huntask-identity-service",
-      "program": "${workspaceFolder}/bin/Debug/net9.0/Huntask.Identity.Service.dll",
+      "program": "${workspaceFolder}/src/Huntask.Identity.Service.Presentation/bin/Debug/net9.0/Huntask.Identity.Service.Presentation.dll",
       "args": [],
-      "cwd": "${workspaceFolder}",
+      "cwd": "${workspaceFolder}/src/Huntask.Identity.Service.Presentation",
       "stopAtEntry": false,
       "serverReadyAction": {
         "action": "openExternally",

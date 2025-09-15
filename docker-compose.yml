@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   huntask-identity-service:
     build:
@@ -36,39 +34,6 @@ services:
     volumes:
       - ./logs/Huntask.Identity.Service:/app/logs
       - ./temp/ms-message-data:/app/ms-message-data
-    networks:
-      - backend
-
-  huntask-tasks-service:
-    build:
-      context: services/Huntask.Tasks.Service/
-      dockerfile: Dockerfile
-    ports:
-     - "8080:8080"
-    profiles:
-      - be
-    environment:
-      - ASPNETCORE_ENVIRONMENT
-      - ConnectionStrings__HuntaskDbConnection
-      - HuntaskPorts__TasksServiceHttp
-      - Jwt__Issuer
-      - Jwt__Audience
-      - Jwt__Secret
-      - Jwt__ValidityHours
-      - Cors__AllowOrigins
-      - Serilog__MinimumLevel__EntityFrameworkCore
-      - Serilog__MinimumLevel__Npgsql
-      - Serilog__MinimumLevel__Huntask.Tasks.Service
-      - FileSizes__MaxAssetFileSize
-      - FileSizes__MessageDataThresholdSize
-      - FileSizes__MaxAvatarFileSize
-    depends_on:
-      huntask-db:
-        condition: service_healthy
-      huntask-identity-service:
-        condition: service_started
-    volumes:
-      - ./logs/Huntask.Tasks.Service:/app/logs
     networks:
       - backend
 
@@ -117,7 +82,7 @@ services:
 
   huntask-client:
     build:
-      context: huntask-client
+      context: clients/huntask-client
       dockerfile: Dockerfile
     profiles:
       - fe
