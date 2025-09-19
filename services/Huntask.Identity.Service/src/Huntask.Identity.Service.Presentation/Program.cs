@@ -1,7 +1,5 @@
 using Huntask.Identity.Service.Infrastructure.Extensions;
 using Huntask.Identity.Service.Presentation.Extensions;
-using Huntask.Identity.Service.Presentation.Endpoints;
-using Huntask.Common.Presentation.Extensions;
 using Huntask.Common.Infrastructure.Extensions;
 
 [assembly: ExcludeFromCodeCoverage]
@@ -12,7 +10,8 @@ builder.Services
   .AddSettings()
   .AddInfrastructureServices()
   .AddPresentationServices()
-  .AddCommonDecorations();
+  .AddCommonDecorations()
+  .AddHealthCheckServices();
 
 var app = builder
   .ConfigureBuilder()
@@ -21,6 +20,6 @@ var app = builder
 app
   .ConfigurePresentation()
   .ConfigureCommonDecorations()
-  .RegisterHealthcheckEndpoint();
+  .ConfigureHealthChecks();
 
 app.Run();

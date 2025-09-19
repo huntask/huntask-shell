@@ -1,5 +1,3 @@
-using Huntask.Common.Application.Models;
-using Huntask.Common.Contracts;
 using Huntask.Identity.Service.Domain.Models;
 using Huntask.Identity.Service.Infrastructure.Contexts;
 using MassTransit;
@@ -13,8 +11,6 @@ public class RegisterUserCommandHandler(
   IEndpointNameFormatter endpointNameFormatter,
   ISendEndpointProvider sendEndpointProvider) : IRequestHandler<RegisterUserCommand, Result<UserRegistrationModel>>
 {
-  private const string BadRequestErrorMessage = "User creation has succeeded; User email: {Email}.";
-
   public async Task<Result<UserRegistrationModel>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
   {
     var model = request.Model;
@@ -51,17 +47,12 @@ public class RegisterUserCommandHandler(
 
     if (result.Succeeded)
     {
-        Log.Logger.Debug(BadRequestErrorMessage, model.Email);
-        return new Result<UserRegistrationModel>(true, HttpStatusCode.Created, model);
+      return Result.Ok(model)
+        .WithSuccess(new Success("User registered successfully")
+          .WithMetadata(ResultMetadataKeys.SuccessStatusCode, HttpStatusCode.Created));
     }
 
-    // TODO[identity]: Extract into a Result extension method
-    Log.Logger.Debug(BadRequestErrorMessage, model.Email);
-    return new Result<UserRegistrationModel>(
-        false,
-        HttpStatusCode.BadRequest,
-        model,
-        [.. result.Errors.Select(e => e.Description)]
-    );
+    return Result.Fail(new Error(ErrorCodes.RegistrationIsNotSuccessful)
+      .WithMetadata(ResultMetadataKeys.ErrorCode, ErrorCodes.RegistrationIsNotSuccessful));
   }
 }

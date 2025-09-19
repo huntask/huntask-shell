@@ -55,7 +55,7 @@ public static class WebApplicationDecorationsExtensions
 
   private static WebApplication ConfigureMiddleware(this WebApplication app)
   {
-    app.UseMiddleware<ExceptionsMiddleware>();
+    app.UseMiddleware<ExceptionHandlingMiddleware>();
     return app;
   }
 

@@ -1,6 +1,6 @@
 using Huntask.Assets.Service.Domain.Models;
 using Huntask.Assets.Service.Domain.Repositories;
-using Huntask.Common.Application.Models;
+using static Huntask.Common.Constants;
 
 namespace Huntask.Assets.Service.Application.Queries.GetAsset;
 
@@ -26,14 +26,16 @@ public class GetAssetQueryHandler : IRequestHandler<GetAssetQuery, Result<Asset>
 
       if (asset == null)
       {
-        return new Result<Asset>(false, HttpStatusCode.NotFound, null, [$"Asset {id} not found."]);
+        return Result.Fail(new Error($"Asset {id} not found.")
+          .WithMetadata(ResultMetadataKeys.ErrorCode, ErrorCodes.AssetNotFound));
       }
 
-      return new Result<Asset>(true, HttpStatusCode.OK, asset, []);
+      return Result.Ok(asset);
     }
     catch (Exception ex)
     {
-      return new Result<Asset>(false, HttpStatusCode.InternalServerError, null, [ex.Message]);
+      return Result.Fail(new Error(ex.Message)
+        .WithMetadata(ResultMetadataKeys.ErrorCode, ErrorCodes.InternalServerError));
     }
   }
 }

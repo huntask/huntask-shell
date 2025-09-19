@@ -12,7 +12,6 @@ public class UserRegistrationModel
   [JsonPropertyName("password")]
   public string Password { get; set; } = string.Empty;
 
-
   [FromForm(Name = "firstName")]
   [JsonPropertyName("firstName")]
   public string? FirstName { get; set; }

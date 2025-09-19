@@ -1,7 +1,7 @@
 using Huntask.Assets.Service.Domain.Models;
 using Huntask.Assets.Service.Domain.Repositories;
 using Huntask.Assets.Service.Domain.Services;
-using Huntask.Common.Application.Models;
+using static Huntask.Common.Constants;
 
 namespace Huntask.Assets.Service.Application.Commands.DeleteAsset;
 
@@ -23,18 +23,15 @@ public class DeleteAssetCommandHandler(
         asset.ContainerName
       );
 
-      var result = new Result<Asset>(
-        success,
-        success ? HttpStatusCode.OK : HttpStatusCode.NotFound,
-        asset,
-        success ? [] : [$"Asset {asset.InternalName} not found in container {asset.ContainerName}."]
-      );
-
-      return result;
+      return success
+        ? Result.Ok(asset)
+        : Result.Fail(new Error($"Asset {asset.InternalName} not found in container {asset.ContainerName}.")
+          .WithMetadata(ResultMetadataKeys.ErrorCode, ErrorCodes.AssetNotFound));
     }
     catch (Exception ex)
     {
-      return new Result<Asset>(false, HttpStatusCode.InternalServerError, null, [ex.Message]);
+      return Result.Fail(new Error(ex.Message)
+        .WithMetadata(ResultMetadataKeys.ErrorCode, ErrorCodes.InternalServerError));
     }
   }
 }

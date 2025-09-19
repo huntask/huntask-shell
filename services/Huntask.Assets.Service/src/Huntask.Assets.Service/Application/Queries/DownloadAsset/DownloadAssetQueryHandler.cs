@@ -1,6 +1,6 @@
 using Huntask.Assets.Service.Domain.Repositories;
 using Huntask.Assets.Service.Domain.Services;
-using Huntask.Common.Application.Models;
+using static Huntask.Common.Constants;
 
 namespace Huntask.Assets.Service.Application.Queries.DownloadAsset;
 
@@ -19,7 +19,8 @@ public class DownloadAssetQueryHandler(
 
       if (asset == null)
       {
-        return new Result<DownloadAssetModel>(false, HttpStatusCode.NotFound, null, [$"Asset {id} not found."]);
+        return Result.Fail(new Error($"Asset {id} not found.")
+          .WithMetadata(ResultMetadataKeys.ErrorCode, ErrorCodes.AssetNotFound));
       }
       var model = new DownloadAssetModel
       {
@@ -27,11 +28,12 @@ public class DownloadAssetQueryHandler(
         Stream = assetService.Download(asset.InternalName, asset.Extension, asset.ContainerName)
       };
 
-      return new Result<DownloadAssetModel>(true, HttpStatusCode.OK, model, []);
+      return Result.Ok(model);
     }
     catch (Exception ex)
     {
-      return new Result<DownloadAssetModel>(false, HttpStatusCode.InternalServerError, null, [ex.Message]);
+      return Result.Fail(new Error(ex.Message)
+        .WithMetadata(ResultMetadataKeys.ErrorCode, ErrorCodes.InternalServerError));
     }
   }
 }

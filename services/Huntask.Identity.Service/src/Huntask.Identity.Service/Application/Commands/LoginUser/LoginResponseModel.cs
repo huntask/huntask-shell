@@ -1,4 +1,4 @@
-namespace Huntask.Identity.Service.Application.Models;
+namespace Huntask.Identity.Service.Application.Commands.LoginUser;
 
 public class LoginResponseModel(string authToken, string userId)
 {

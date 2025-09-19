@@ -1,4 +1,3 @@
-global using Serilog;
 global using MediatR;
 global using System.Net;
 global using System.Diagnostics.CodeAnalysis;
@@ -6,3 +5,9 @@ global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.Extensions.Configuration;
+global using FluentResults;
+global using Huntask.Common.Infrastructure.Extensions;
+global using Huntask.Common.Application;
+global using Huntask.Common.Contracts;
+global using static Huntask.Common.Constants;
+global using Huntask.Common.Infrastructure.Models.Options;

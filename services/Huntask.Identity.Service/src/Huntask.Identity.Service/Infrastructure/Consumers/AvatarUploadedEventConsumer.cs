@@ -1,4 +1,3 @@
-using Huntask.Common.Contracts;
 using Huntask.Identity.Service.Domain.Models;
 using Huntask.Identity.Service.Infrastructure.Contexts;
 using MassTransit;

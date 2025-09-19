@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Huntask.Identity.Service.Infrastructure.Services;
 using Huntask.Identity.Service.Infrastructure.Contexts;
-using Huntask.Common.Infrastructure.Models.Options;
+
 using Microsoft.Extensions.Options;
 using Huntask.Common.Infrastructure.Extensions;
 using Huntask.Identity.Service.Infrastructure.Consumers;

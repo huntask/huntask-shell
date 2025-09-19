@@ -1,5 +1,3 @@
-using Huntask.Common.Presentation.Extensions;
-
 namespace Huntask.Identity.Service.Presentation.Extensions;
 
 [ExcludeFromCodeCoverage]
