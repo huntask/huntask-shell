@@ -3,6 +3,7 @@ using MassTransit;
 using MassTransit.MessageData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 using static Huntask.Common.Constants;
 
@@ -75,39 +76,43 @@ public static class ServiceCollectionExtensions
       return new FileSystemMessageDataRepository(dataDir);
     });
 
-    services.AddMassTransit(x =>
+    services.AddMassTransit(bus =>
     {
-      x.SetKebabCaseEndpointNameFormatter();
+      bus.SetKebabCaseEndpointNameFormatter();
 
-      x.AddEntityFrameworkOutbox<T>(o =>
+      bus.AddEntityFrameworkOutbox<T>(o =>
       {
         o.UsePostgres();
         o.UseBusOutbox();
       });
 
-      x.AddConfigureEndpointsCallback((context, name, ep) =>
+      bus.AddConfigureEndpointsCallback((context, name, ep) =>
       {
         ep.UseEntityFrameworkOutbox<T>(context);
         ep.UseMessageRetry(r => r.Interval(5, TimeSpan.FromSeconds(5)));
       });
 
+      bus.ConfigureHealthCheckOptions(options =>
+        {
+          options.Name = "masstransit";
+          options.MinimalFailureStatus = HealthStatus.Unhealthy;
+          options.Tags.Add("ms");
+        });
+
       if (registerConsumers is not null)
       {
-        registerConsumers(x);
+        registerConsumers(bus);
       }
 
-      x.UsingRabbitMq((context, cfg) =>
+      bus.UsingRabbitMq((context, cfg) =>
       {
+        var connectionString = context.GetRequiredService<IOptions<ConnectionStringsOptions>>().Value.RabbitMqConnection;
         var rabbitMqOptions = context.GetRequiredService<IOptions<RabbitMqOptions>>().Value;
         var messageDataRepository = context.GetRequiredService<IMessageDataRepository>();
 
         cfg.UseMessageData(messageDataRepository);
 
-        cfg.Host(rabbitMqOptions.Host, "/", h =>
-        {
-          h.Username(rabbitMqOptions.User);
-          h.Password(rabbitMqOptions.Password);
-        });
+        cfg.Host(new Uri(connectionString));
 
         cfg.ConfigureEndpoints(context);
       });

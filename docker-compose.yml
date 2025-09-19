@@ -10,6 +10,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT
       - ConnectionStrings__HuntaskDbConnection
+      - ConnectionStrings__RabbitMqConnection
       - HuntaskPorts__IdentityServiceHttp
       - Jwt__Issuer
       - Jwt__Audience
@@ -36,6 +37,12 @@ services:
       - ./temp/ms-message-data:/app/ms-message-data
     networks:
       - backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/healthz" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
 
   huntask-assets-service:
     build:
@@ -49,6 +56,7 @@ services:
       - ASPNETCORE_ENVIRONMENT
       - HuntaskPorts__AssetsServiceHttp
       - ConnectionStrings__HuntaskDbConnection
+      - ConnectionStrings__RabbitMqConnection
       - Assets__Folder
       - Assets__DefaultContainer
       - Jwt__Issuer
@@ -72,13 +80,19 @@ services:
       rabbitmq:
         condition: service_healthy
       huntask-identity-service:
-        condition: service_started
+        condition: service_healthy
     volumes:
       - ./logs/Huntask.Assets.Service:/app/logs
       - ./assets:/app/assets
       - ./temp/ms-message-data:/app/ms-message-data
     networks:
       - backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082/healthz" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
 
   huntask-client:
     build:

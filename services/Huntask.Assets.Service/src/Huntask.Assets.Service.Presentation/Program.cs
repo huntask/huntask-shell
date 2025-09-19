@@ -1,6 +1,5 @@
 using Huntask.Assets.Service.Infrastructure.Extensions;
 using Huntask.Assets.Service.Presentation.Extensions;
-using Huntask.Assets.Service.Presentation.Endpoints;
 using Huntask.Common.Presentation.Extensions;
 using Huntask.Common.Infrastructure.Extensions;
 
@@ -12,7 +11,8 @@ builder.Services
   .AddSettings()
   .AddInfrastructureServices()
   .AddPresentationServices()
-  .AddCommonDecorations();
+  .AddCommonDecorations()
+  .AddHealthCheckServices();
 
 var app = builder
   .ConfigureBuilder()
@@ -21,6 +21,6 @@ var app = builder
 app
   .ConfigurePresentation()
   .ConfigureCommonDecorations()
-  .RegisterHealthcheckEndpoint();
+  .ConfigureHealthChecks();
 
 app.Run();

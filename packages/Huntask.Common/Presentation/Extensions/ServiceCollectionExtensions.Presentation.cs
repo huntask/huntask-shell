@@ -1,4 +1,5 @@
 using Huntask.Common.Infrastructure.Models.Options;
+using Huntask.Common.Presentation.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -21,7 +22,10 @@ public static class ServiceCollectionPresentationExtensions
   private static IServiceCollection AddApiControllers(this IServiceCollection services)
   {
     services
-      .AddControllers()
+      .AddControllers(options =>
+      {
+        options.Filters.Add<FluentResultFilter>();
+      })
       .AddJsonOptions(options =>
       {
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;

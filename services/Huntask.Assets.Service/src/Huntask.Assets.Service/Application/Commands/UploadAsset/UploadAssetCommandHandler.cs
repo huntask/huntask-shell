@@ -1,12 +1,12 @@
 using Huntask.Assets.Service.Domain.Models;
 using Huntask.Assets.Service.Domain.Services;
-using Huntask.Common.Application.Models;
+using static Huntask.Common.Constants;
 
 namespace Huntask.Assets.Service.Application.Commands.UploadAsset;
 
-public class UploadAssetCommandHandler(IAssetService assetService) : IRequestHandler<UploadAssetCommand, Result<Asset?>>
+public class UploadAssetCommandHandler(IAssetService assetService) : IRequestHandler<UploadAssetCommand, Result<Asset>>
 {
-  public async Task<Result<Asset?>> Handle(UploadAssetCommand request, CancellationToken cancellationToken)
+  public async Task<Result<Asset>> Handle(UploadAssetCommand request, CancellationToken cancellationToken)
   {
     try
     {
@@ -14,20 +14,17 @@ public class UploadAssetCommandHandler(IAssetService assetService) : IRequestHan
 
       if (model.FileStream == null || model.FileStream.Length == 0)
       {
-        return new Result<Asset?>(
-          false,
-          HttpStatusCode.BadRequest,
-          null,
-          ["File stream is empty or null."]
-        );
+        return Result.Fail(new Error("File stream is empty or null.")
+          .WithMetadata(ResultMetadataKeys.ErrorCode, ErrorCodes.FileStreamIsEmptyOrNull));
       }
       var asset = await assetService.UploadAsync(model);
 
-      return new Result<Asset?>(true, HttpStatusCode.OK, asset);
+      return Result.Ok(asset);
     }
     catch (Exception ex)
     {
-      return new Result<Asset?>(false, HttpStatusCode.InternalServerError, null, [ex.Message]);
+      return Result.Fail(new Error(ex.Message)
+        .WithMetadata(ResultMetadataKeys.ErrorCode, ErrorCodes.FileStreamIsEmptyOrNull));
     }
   }
 }

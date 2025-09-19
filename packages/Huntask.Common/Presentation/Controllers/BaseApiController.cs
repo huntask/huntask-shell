@@ -1,14 +1,25 @@
-using Huntask.Common.Presentation.Models;
-using Huntask.Common.Application.Models;
+using Huntask.Common.Infrastructure.Models.Options;
+using Microsoft.AspNetCore.Http;
 
 namespace Huntask.Common.Presentation.Controllers;
 
 public class BaseApiController : ControllerBase
 {
-  public string HateoasBaseUrl => $"{Request.Scheme}://{Request.Host}/api/v{RouteData.Values["version"]}/";
+  protected string HateoasBaseUrl => $"{Request.Scheme}://{Request.Host}/api/v{RouteData.Values["version"]}/";
 
-  protected IActionResult FromResult<T>(Result<T> result)
+  protected void SetAuthTokenCookie(string token, JwtOptions jwtOptions)
   {
-    return StatusCode((int)result.StatusCode, new ApiResult<T>(result));
+    Response.Cookies.Append(Constants.Cookies.AuthToken, token, new CookieOptions
+    {
+      HttpOnly = true,
+      Secure = true,
+      SameSite = SameSiteMode.None,
+      Expires = DateTimeOffset.UtcNow.AddHours(jwtOptions.ValidityHours)
+    });
+  }
+
+  protected void RemoveAuthTokenCookie()
+  {
+    Response.Cookies.Delete(Constants.Cookies.AuthToken);
   }
 }

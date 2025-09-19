@@ -1,4 +1,3 @@
-using Huntask.Common.Infrastructure.Extensions;
 using Huntask.Identity.Service.Domain.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
